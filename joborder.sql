@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2018 at 02:26 PM
+-- Generation Time: Jun 26, 2018 at 03:46 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -81,6 +81,25 @@ INSERT INTO `member` (`id_member`, `username`, `password`, `position`, `email`, 
 (1, 'aa', '1234', 'ITMGR', 'user1@local.com', 'Atichart Sathusen'),
 (2, 'jh', '1234', 'PDMGR', 'user3@local.com', 'Jan Holldorff');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `temp_part`
+--
+
+CREATE TABLE `temp_part` (
+  `temp_part` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `temp_part`
+--
+
+INSERT INTO `temp_part` (`temp_part`) VALUES
+('TEMP001'),
+('TEMP002'),
+('TEMP003');
+
 --
 -- Indexes for dumped tables
 --
@@ -96,6 +115,12 @@ ALTER TABLE `mainjob`
 --
 ALTER TABLE `member`
   ADD PRIMARY KEY (`id_member`);
+
+--
+-- Indexes for table `temp_part`
+--
+ALTER TABLE `temp_part`
+  ADD PRIMARY KEY (`temp_part`);
 
 --
 -- AUTO_INCREMENT for dumped tables
