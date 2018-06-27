@@ -2,14 +2,22 @@ $(document).ready(function () {
     $('#other_type').css('display', 'none');
     $('#other_type_select').change(function () {
         $("#other_type").toggle("slow", function () {
-            // Animation complete.
+            if($('#other_type').css("display") == "none"){
+				$('#other_type').removeAttr('required');
+			}else{
+				$('#other_type').attr("required", "true");
+			}
         });
     });
 
     $('#other_wt_form').css('display', 'none');
     $('#other_wt').change(function () {
         $("#other_wt_form").toggle("slow", function () {
-            // Animation complete.
+            if($('#other_wt_form').css("display") == "none"){
+				$('#other_wt_form').removeAttr('required');
+			}else{
+				$('#other_wt_form').attr("required", "true");
+			}
         });
     });
 
@@ -32,7 +40,7 @@ $(document).ready(function () {
     });
 
     $('#btn_addfile_attachedfile').click(function () {
-        $(this).before('<input type="file" class="form-control" name="detail_file[]">');
+        $(this).before('<input type="file" class="form-control" name="attachedfile[]">');
     });
 
     $('#add_partid').click(function () {

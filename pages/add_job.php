@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check">
-                                            <input class="form-check-input options" name="tool_type" type="checkbox" id="other_type_select" value="5" required>
+                                            <input class="form-check-input options" name="tool_type" type="checkbox" id="other_type_select" value="6" required>
                                             <label class="form-check-label">อื่นๆ (Other)</label>
 
                                         </div>
@@ -257,7 +257,7 @@
                                         $result = $conn->query($sql);
                                         ?>
                                         <b style="text-decoration:none;">ผู้รับ (Received by)</b>
-                                        <select class="form-control" name="received">
+                                        <select class="form-control" name="received" required>
                                             <option>เลือกผู้รับ</option>
                                             <?php 
                                                 while($row = $result->fetch_assoc()){

@@ -1,89 +1,251 @@
 <?php ini_set('max_execution_time', 0); ?>
 <?php 
 
-function get_data($DATA){
-    if(isset($DATA) AND $DATA != ""){
-        return $DATA;
-    }else{
-        return false;
-    }
+if(isset($_POST['request_date']) AND $_POST['request_date'] != ""){
+	$request_date = $_POST['request_date'];
+	$request_date_FIELD = true;
+}else{
+    $request_date_FIELD = false;
 }
 
-function get_true_field($DATA){
-    if(isset($DATA) AND $DATA != ""){
-        return true;
-    }else{
-        return false;
-    }
+if(isset($_POST['due_date']) AND $_POST['due_date'] != ""){
+	$due_date = $_POST['due_date'];
+	$due_date_FIELD = true;
+}else{
+    $due_date_FIELD = false;
 }
 
-$request_date = get_data($_POST['request_date']);
-$request_date_field = get_true_field($_POST['request_date']);
 
-$due_date = get_data($_POST['due_date']);
-$due_date_field = get_true_field($_POST['due_date']);
+if(isset($_POST['part_name']) AND $_POST['part_name'] != ""){
+	$part_name_ar = $_POST['part_name'];
+	$lastElement = end($part_name_ar);
+	$part_name = "";
+	for($i = 0;$i<count($part_name_ar);$i++){
+		if($part_name_ar[$i] == $lastElement){
+			$part_name .= $part_name_ar[$i];
+		}else{
+			$part_name .= $part_name_ar[$i].",";
+		}
+	}
+	$part_name_FIELD = true;
+}else{
+    $part_name_FIELD = false;
+}
 
-$part_name = get_data($_POST['part_name']);
-$part_name_field = get_true_field($_POST['part_name']);
+if(isset($_POST['part_id']) AND $_POST['part_id'] != ""){
+	$part_id_ar = $_POST['part_id'];
+	$lastElement = end($part_id_ar);
+	$part_id = "";
+	for($i = 0;$i<count($part_id_ar);$i++){
+		if($part_id_ar[$i] == $lastElement){
+			$part_id .= $part_id_ar[$i];
+		}else{
+			$part_id .= $part_id_ar[$i].",";
+		}
+	}
+	$part_id_FIELD = true;
+}else{
+    $part_id_FIELD = false;
+}
 
-$part_id = get_data($_POST['part_id']);
-$part_id_field = get_true_field($_POST['part_id']);
+if(isset($_POST['tool_name']) AND $_POST['tool_name'] != ""){
+	$tool_name = $_POST['tool_name'];
+	$tool_name_FIELD = true;
+}else{
+    $tool_name_FIELD = false;
+}
 
-$tool_name = get_data($_POST['tool_name']);
-$tool_name_field = get_true_field($_POST['tool_name']);
 
-$asset_id = get_data($_POST['asset_id']);
-$asset_id_field = get_true_field($_POST['asset_id']);
+if(isset($_POST['asset_id']) AND $_POST['asset_id'] != ""){
+	$asset_id = $_POST['asset_id'];
+	$asset_id_FIELD = true;
+}else{
+    $asset_id_FIELD = false;
+}
 
-$tool_type = get_data($_POST['tool_type']);
-$tool_type_field = get_true_field($_POST['tool_type']);
+function testValue($val1,$val2){
+	echo $val1;
+	echo '<br>';
+	echo $val2;
+}
 
-$other_type = get_data($_POST['other_type']);
-$other_type_field = get_true_field($_POST['other_type']);
+if(isset($_POST['tool_type']) AND $_POST['tool_type'] != ""){
+	$tool_type = $_POST['tool_type'];
+	$tool_type_FIELD = true;
+}else{
+    $tool_type_FIELD = false;
+}
 
-$wt_new = get_data($_POST['wt_new']);
-$wt_new_field = get_true_field($_POST['wt_new']);
+if(isset($_POST['other_type']) AND $_POST['other_type'] != ""){
+	$other_type = $_POST['other_type'];
+	$other_type_FIELD = true;
+}else{
+    $other_type_FIELD = false;
+}
 
-$wt_replace = get_data($_POST['wt_replace']);
-$wt_replace_field = get_true_field($_POST['wt_replace']);
- 
-$wt_other = get_data($_POST['wt_other']);
-$wt_other_field = get_true_field($_POST['wt_other']);
 
-$other_wt_form = get_data($_POST['other_wt_form']);
-$other_wt_form_field = get_true_field($_POST['other_wt_form']);
+if(isset($_POST['wt_new']) AND $_POST['wt_new'] != ""){
+	$wt_new = $_POST['wt_new'];
+	$wt_new_FIELD = true;
+}else{
+    $wt_new_FIELD = false;
+}
 
-$wt_modify = get_data($_POST['wt_modify']);
-$wt_modify_field = get_true_field($_POST['wt_modify']);
+if(isset($_POST['wt_replace']) AND $_POST['wt_replace'] != ""){
+	$wt_replace = $_POST['wt_replace'];
+	$wt_replace_FIELD = true;
+}else{
+    $wt_replace_FIELD = false;
+}
 
-$wt_sample = get_data($_POST['wt_sample']);
-$wt_sample_field = get_true_field($_POST['wt_sample']);
+if(isset($_POST['wt_other']) AND $_POST['wt_other'] != ""){
+	$wt_other = $_POST['wt_other'];
+	$wt_other_FIELD = true;
+}else{
+    $wt_other_FIELD = false;
+}
 
-$wt_sample_form = get_data($_POST['wt_sample_form']);
-$wt_sample_form_field = get_true_field($_POST['wt_sample_form']);
+if(isset($_POST['other_wt_form']) AND $_POST['other_wt_form'] != ""){
+	$other_wt_form = $_POST['other_wt_form'];
+	$other_wt_form_FIELD = true;
+}else{
+    $other_wt_form_FIELD = false;
+}
 
-$wt_repair = get_data($_POST['wt_repair']);
-$wt_repair_field = get_true_field($_POST['wt_repair']);
+if(isset($_POST['wt_modify']) AND $_POST['wt_modify'] != ""){
+	$wt_modify = $_POST['wt_modify'];
+	$wt_modify_FIELD = true;
+}else{
+    $wt_modify_FIELD = false;
+}
 
-$wt_pd = get_data($_POST['wt_pd']);
-$wt_pd_field = get_true_field($_POST['wt_pd']);
+if(isset($_POST['wt_sample']) AND $_POST['wt_sample'] != ""){
+	$wt_sample = $_POST['wt_sample'];
+	$wt_sample_FIELD = true;
+}else{
+    $wt_sample_FIELD = false;
+}
 
-$wt_pd_form = get_data($_POST['wt_pd_form']);
-$wt_pd_form_field = get_true_field($_POST['wt_pd_form']);
+if(isset($_POST['wt_sample_form']) AND $_POST['wt_sample_form'] != ""){
+	$wt_sample_form = $_POST['wt_sample_form'];
+	$wt_sample_form_FIELD = true;
+}else{
+    $wt_sample_form_FIELD = false;
+}
 
-$estimated = get_data($_POST['estimated']);
-$estimated_field = get_true_field($_POST['estimated']);
+if(isset($_POST['wt_repair']) AND $_POST['wt_repair'] != ""){
+	$wt_repair = $_POST['wt_repair'];
+	$wt_repair_FIELD = true;
+}else{
+    $wt_repair_FIELD = false;
+}
 
-$detail_work = get_data($_POST['detail_work']);
-$detail_work_field = get_true_field($_POST['detail_work']);
+if(isset($_POST['wt_pd']) AND $_POST['wt_pd'] != ""){
+	$wt_pd = $_POST['wt_pd'];
+	$wt_pd_FIELD = true;
+}else{
+    $wt_pd_FIELD = false;
+}
 
-/////ไฟล์ detail_file array
+if(isset($_POST['wt_pd_form']) AND $_POST['wt_pd_form'] != ""){
+	$wt_pd_form = $_POST['wt_pd_form'];
+	$wt_pd_form_FIELD = true;
+}else{
+    $wt_pd_form_FIELD = false;
+}
 
-$remark = get_data($_POST['remark']);
-$remark_field = get_true_field($_POST['remark']);
+if(isset($_POST['estimated']) AND $_POST['estimated'] != ""){
+	$estimated = $_POST['estimated'];
+	$estimated_FIELD = true;
+}else{
+    $estimated_FIELD = false;
+}
 
-$received = get_data($_POST['received']);
-$received_field = get_true_field($_POST['received']);
+if(isset($_POST['detail_work']) AND $_POST['detail_work'] != ""){
+	$detail_work = $_POST['detail_work'];
+	$detail_work_FIELD = true;
+}else{
+    $detail_work_FIELD = false;
+}
 
+
+if(isset($_POST['remark']) AND $_POST['remark'] != ""){
+	$remark = $_POST['remark'];
+	$remark_FIELD = true;
+}else{
+    $remark_FIELD = false;
+}
+
+if($_FILES['detail_file']['name'][0] != null){
+    $filenaja = "";
+	$lastElement = end($_FILES['detail_file']['name']);
+    if(is_array($_FILES))  
+    {  
+		foreach($_FILES['detail_file']['name'] as $name => $value)  
+        {  
+			if($_FILES['detail_file']['name'][$name] == $lastElement){
+				$file_name = explode(".", $_FILES['detail_file']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["detail_file"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja .= $new_name;
+			}else{
+				$file_name = explode(".", $_FILES['detail_file']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["detail_file"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja .= $new_name.",";
+			}
+            
+        }   
+    }  
+    $File_Field = true;
+	}else{
+    $File_Field = false;
+}
+
+
+
+if(isset($_POST['received']) AND $_POST['received'] != ""){
+	$received = $_POST['received'];
+	$received_FIELD = true;
+}else{
+    $received_FIELD = false;
+}
+
+if($_FILES['attachedfile']['name'][0] != null){
+    $filenaja2 = "";
+	$lastElement = end($_FILES['attachedfile']['name']);
+    if(is_array($_FILES))  
+    {  
+		foreach($_FILES['attachedfile']['name'] as $name => $value)  
+        {  
+			if($_FILES['attachedfile']['name'][$name] == $lastElement){
+				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja2 .= $new_name;
+			}else{
+				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja2 .= $new_name.",";
+			}
+            
+        }   
+    }  
+    $File_Field2 = true;
+	}else{
+    $File_Field2 = false;
+}
+
+
+echo $filenaja2;
 /////ไฟล์ attachedfile array
 ?>
