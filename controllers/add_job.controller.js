@@ -189,4 +189,14 @@ $(document).ready(function () {
             requiredCheckboxes.attr('required', 'required');
         }
     });
+
+    $(".logout").click(function(){
+        $.ajax({
+            url:'services/logout.service.php',
+            type:'get',
+            success:function(res){
+                location.reload();
+            }
+        });
+    });
 });

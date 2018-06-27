@@ -233,7 +233,6 @@ if($_FILES['attachedfile']['name'][0] != null){
 				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
 				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
 				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
-				$targetPath = "../upload/".$new_name;  
 				move_uploaded_file($sourcePath, $targetPath); 
 				$filenaja2 .= $new_name.",";
 			}
@@ -244,8 +243,8 @@ if($_FILES['attachedfile']['name'][0] != null){
 	}else{
     $File_Field2 = false;
 }
+$rand_id = rand().rand();
+$sql = "INSERT INTO mainjob (no_id,".($request_date_FIELD ? "request_date ," : null).($due_date_FIELD ? "due_date ," : null).($part_name_FIELD ? "part_name ," : null).($part_id_FIELD ? "part_id ," : null).($tool_name_FIELD ? "tool_name ," : null).($asset_id_FIELD ? "asset_id ," : null).($tool_type_FIELD ? "tool_type ," : null).($other_type_FIELD ? "tool_type_other ," : null).($wt_new_FIELD ? "wt_new ," : null).($wt_replace_FIELD ? "wt_replace ," : null).($wt_other_FIELD ? "wt_other ," : null).($other_wt_form_FIELD ? "other_wt_form ," : null).($wt_modify_FIELD ? "wt_modify ," : null).($wt_sample_FIELD ? "wt_sample ," : null).($wt_sample_form_FIELD ? "wt_sample_form ," : null).($wt_repair_FIELD ? "wt_repair ," : null).($wt_pd_FIELD ? "wt_pd ," : null).($wt_pd_form_FIELD ? "wt_pd_form ," : null)." session_id) VALUES ('',".($request_date_FIELD ? "'$request_date' ," : null).($due_date_FIELD ? "'$due_date' ," : null).($part_name_FIELD ? "'$part_name' ," : null).($part_id_FIELD ? "'$part_id' ," : null).($tool_name_FIELD ? "'$tool_name' ," : null).($asset_id_FIELD ? "'$asset_id' ," : null).($tool_type_FIELD ? "'$tool_type' ," : null).($other_type_FIELD ? "'$other_type' ," : null).($wt_new_FIELD ? "'$wt_new' ," : null).($wt_replace_FIELD ? "'$wt_replace' ," : null).($wt_other_FIELD ? "'$wt_other' ," : null).($other_wt_form_FIELD ? "'$other_wt_form' ," : null).($wt_modify_FIELD ? "'$wt_modify' ," : null).($wt_sample_FIELD ? "'$wt_sample' ," : null).($wt_sample_form_FIELD ? "'$wt_sample_form' ," : null).($wt_repair_FIELD ? "'$wt_repair' ," : null).($wt_pd_FIELD ? "'$wt_pd' ," : null).($wt_pd_form_FIELD ? "'$wt_pd_form' ," : null)." $rand_id)";
 
-
-echo $filenaja2;
-/////ไฟล์ attachedfile array
+echo $sql;
 ?>
