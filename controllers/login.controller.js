@@ -36,8 +36,9 @@ $(document).ready(function(){
                             title: 'Oops...',
                             text: data.message
                         });
+						$(".log-btn").removeClass('fa-circle-o-notch fa-spin');
                     }
-                    console.log(res);
+                    
                 },
                 beforeSend: function() { // ก่อนส่งให้ หมุนๆ
                     $(".log-btn").addClass('fa-circle-o-notch fa-spin');
