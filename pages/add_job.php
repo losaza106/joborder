@@ -257,8 +257,8 @@
                                         $result = $conn->query($sql);
                                         ?>
                                         <b style="text-decoration:none;">ผู้รับ (Received by)</b>
-                                        <select class="form-control" name="received" required>
-                                            <option>เลือกผู้รับ</option>
+                                        <select class="form-control" name="received" id="received">
+                                            <option value="">เลือกผู้รับ</option>
                                             <?php 
                                                 while($row = $result->fetch_assoc()){
                                                     echo '<option value="'.$row['id_member'].'">'.$row['username'].' | '.$row['position'].'</option>';

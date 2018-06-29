@@ -259,9 +259,10 @@ if($result){
 	$sql = "SELECT * FROM member WHERE id_member=$received";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
-	$DIVMGR = $row['DIVMGR'];
-	$SENMGR = $row['SENMGR'];
-	$sql = "SELECT email FROM member WHERE ";
+	$response = [
+		"success"=>true,
+		"message"=>"true."
+	];
 }else{
 	$response = [
 		"success"=>false,

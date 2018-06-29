@@ -165,20 +165,40 @@ $(document).ready(function () {
 
     $('#add_job').on('submit', function (e) {
         e.preventDefault();
-        $.ajaxSetup({
+		var received = $('#received').val();
+		if(received == ""){
+			swal({
+                type: 'error',
+                title: 'Please Select Received.'
+            });
+		}else{
+			$.ajaxSetup({
             cache: false,
             contentType: false,
             processData: false
         });
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-            url: 'services/add_job.service.php',
-            type: 'post',
-            data: formData,
-            success: function (res) {
-                console.log(res);
-            }
-        });
+			var formData = new FormData($(this)[0]);
+			$.ajax({
+				url: 'services/add_job.service.php',
+				type: 'post',
+				data: formData,
+				success: function (res) {
+					swal({
+                        title: 'Success.',
+                        text: "Waiting for approval from your manager.",
+                        type: 'success',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location = 'index.php';
+                        }
+                    });
+				}
+			});
+		}
+        
     });
 
     var requiredCheckboxes = $('input[name="tool_type"]');
