@@ -20,6 +20,7 @@ if($checkUser = $result->num_rows){
         ];
         session_start();
         $_SESSION['id'] = $row['id_member'];
+		$_SESSION['fullname'] = $row['fullname'];
         echo json_encode($response);
     }else{
         $response = [

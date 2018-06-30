@@ -14,8 +14,8 @@
 
     $path = "jo";
 
-    $username_email = "info@local.com"; // Username Email
-    $password_email = "1234"; // Password Eamil
-    $smtp_mail = "192.168.100.21"; // Host SMTP
-    $port_mail = 25; // PORT SMTP
+    $username_email = "poiuytrewqq1061@gmail.com"; // Username Email
+    $password_email = "023892138a"; // Password Eamil
+    $smtp_mail = "smtp.gmail.com"; // Host SMTP
+    $port_mail = 587; // PORT SMTP
 ?>

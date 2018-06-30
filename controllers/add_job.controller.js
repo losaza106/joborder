@@ -195,6 +195,7 @@ $(document).ready(function () {
                             window.location = 'index.php';
                         }
                     });
+					console.log(res);
 				}
 			});
 		}
