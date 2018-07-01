@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2018 at 03:54 PM
+-- Generation Time: Jul 02, 2018 at 12:52 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `mainjob` (
-  `no_id` int(11) NOT NULL,
+  `no_id` varchar(11) NOT NULL,
   `request_date` date NOT NULL,
   `due_date` date NOT NULL,
   `part_name` text NOT NULL,
@@ -55,8 +55,17 @@ CREATE TABLE `mainjob` (
   `received` int(11) NOT NULL,
   `attachedfile` text NOT NULL,
   `request_by` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `session_id` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `mainjob`
+--
+
+INSERT INTO `mainjob` (`no_id`, `request_date`, `due_date`, `part_name`, `part_id`, `tool_name`, `asset_id`, `tool_type`, `tool_type_other`, `wt_new`, `wt_replace`, `wt_other`, `wt_modify`, `wt_sample`, `wt_sample_form`, `wt_repair`, `wt_pd`, `other_wt_form`, `wt_pd_form`, `estimated`, `detail_work`, `detail_file`, `remark`, `received`, `attachedfile`, `request_by`, `status`, `session_id`) VALUES
+('TEMP001', '2018-07-01', '2018-07-03', 'QRO309-DD GEAR TRAY,MAGNETIC BALLAST 26W.,QRO309-DD LEFT REFL.', 'SSS1081-S1,SSS1081-E1,SSS1081-A2', 'ToolName', 'Assets', 6, 'asdasdasdasd', 'Y', '', 'Y', '', '', 'fsdfsdf', 'Y', 'Y', 'teadasd', 'asdasd', 'estimated ', 'Ds work', '1__1666923246.jpg,2__967848191.jpg', 'Remark', 3, 'coverfire__310011072.png', 4, 0, '769655811971552863'),
+('TEMP002', '2018-07-01', '2018-07-14', 'test', 'test', 'aaas', 'ssss', 6, 'ssssss', '', 'Y', '', '', 'Y', 'test', '', '', '', '', 'testss', 'work', '', 'test', 3, '', 4, 0, '21193672361880955076');
 
 -- --------------------------------------------------------
 
@@ -70,16 +79,22 @@ CREATE TABLE `member` (
   `password` varchar(50) NOT NULL,
   `position` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `fullname` varchar(50) NOT NULL
+  `fullname` varchar(50) NOT NULL,
+  `department` varchar(50) NOT NULL,
+  `MGR1` varchar(19) NOT NULL,
+  `MGR2` varchar(19) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`id_member`, `username`, `password`, `position`, `email`, `fullname`) VALUES
-(1, 'aa', '1234', 'ITMGR', 'user1@local.com', 'Atichart Sathusen'),
-(2, 'jh', '1234', 'PDMGR', 'user3@local.com', 'Jan Holldorff');
+INSERT INTO `member` (`id_member`, `username`, `password`, `position`, `email`, `fullname`, `department`, `MGR1`, `MGR2`) VALUES
+(1, 'aa', '1234', 'ITMGR', 'watchnung001@gmail.com', 'Atichart Sathusen', 'IT', '', ''),
+(2, 'jh', '1234', 'PDMGR', 'watchnung002@gmail.com', 'Jan Holldorff', 'PD', '', ''),
+(3, 'ss', '1234', 'PD', 'watchnung003@gmail.com', 'Stephen Dunk', 'PD', 'jh', ''),
+(4, 'SSGR', '1234', 'IT', 'poiuytrewqq106@gmail.com', 'John Doe', 'IT', 'aa', 'sd'),
+(5, 'sd', '1234', 'ITMGR', 'poiuytrewqq1062@gmail.com', 'Starduct Drink', 'IT', '', '');
 
 -- --------------------------------------------------------
 
@@ -96,9 +111,7 @@ CREATE TABLE `temp_part` (
 --
 
 INSERT INTO `temp_part` (`temp_part`) VALUES
-('TEMP001'),
-('TEMP002'),
-('TEMP003');
+('TEMP010');
 
 --
 -- Indexes for dumped tables
@@ -127,16 +140,10 @@ ALTER TABLE `temp_part`
 --
 
 --
--- AUTO_INCREMENT for table `mainjob`
---
-ALTER TABLE `mainjob`
-  MODIFY `no_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

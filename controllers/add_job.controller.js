@@ -104,7 +104,11 @@ $(document).ready(function () {
                                 "</tr>";
                         });
                         $("tbody#MIANPART").html(rows);
+                        $('#loading').removeClass('fa fa-circle-o-notch fa-spin').addClass('fa fa-search');
                     }
+                },
+                beforeSend: function() {
+                    $('#loading').removeClass('fa fa-search').addClass('fa fa-circle-o-notch fa-spin');
                 }
             });
         }
@@ -195,8 +199,14 @@ $(document).ready(function () {
                             window.location = 'index.php';
                         }
                     });
-					console.log(res);
-				}
+                },
+                beforeSend: function() {
+                    swal({
+                        title: 'Process..',
+                        allowOutsideClick: false
+                    });
+                    swal.showLoading();
+                }
 			});
 		}
         
