@@ -14,8 +14,9 @@ $(document).ready(function(){
             type:'post',
 			data:{action:1},
             success:function(res){
-                var data = $.parseJSON(res);
-				console.log(data);
+                //var data = $.parseJSON(res);
+                console.log(res);
+                $('#data_table').html(res);
             }
         });
 });
