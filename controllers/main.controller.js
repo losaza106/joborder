@@ -8,4 +8,14 @@ $(document).ready(function(){
             }
         });
     });
+	
+	$.ajax({
+            url:'services/main.service.php',
+            type:'post',
+			data:{action:1},
+            success:function(res){
+                var data = $.parseJSON(res);
+				console.log(data);
+            }
+        });
 });

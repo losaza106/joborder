@@ -9,7 +9,7 @@ $(document).ready(function(){
             // ถ้าว่าง Alert Error
             swal({
                 type: 'error',
-                title: 'Oops...',
+                title: 'Error...',
                 text: 'Please fill out username fill.'
             })
             $("#username").focus();
@@ -17,7 +17,7 @@ $(document).ready(function(){
             // ถ้าว่าง Alert Error
             swal({
                 type: 'error',
-                title: 'Oops...',
+                title: 'Error...',
                 text: 'Please fill out password fill.'
             })
             $("#password").focus();
@@ -33,14 +33,14 @@ $(document).ready(function(){
                     } else { // ถ้าไม่ Alert แจ้งเตือน
                         swal({
                             type: 'error',
-                            title: 'Oops...',
+                            title: 'Error...',
                             text: data.message
                         });
 						$(".log-btn").removeClass('fa-circle-o-notch fa-spin');
                     }
                     
                 },
-                beforeSend: function() { // ก่อนส่งให้ หมุนๆ
+                beforeSend: function() { // ก่อนส่งให้ Preload ..
                     $(".log-btn").addClass('fa-circle-o-notch fa-spin');
                 }
             });

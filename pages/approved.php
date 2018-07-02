@@ -10,12 +10,53 @@
     <section class="content mt-3">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> APPROVED JOBORDER</h3>
+                        </div>
+                        <div class="card-body text-center">
+						<button class="btn btn-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED</button>
+						<button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-times" aria-hidden="true"></i> REJECT</button>
+						</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-commenting" aria-hidden="true"></i> Reject Message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          
+          <div class="form-group">
+           
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close.</button>
+        <button type="button" class="btn btn-danger">REJECT.</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+                    </div>
+                </div>
+
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> APPROVED JOBORDER</h3>
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> JOBORDER ID : <?php echo $row['no_id'];?></h3>
                         </div>
                         <!-- /.card-header -->
                         <form name="add_job" id="add_job" enctype="multipart/form-data">
@@ -47,53 +88,6 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success btn-sm pull-right" id="add_partid">
-                                                <i class="fa fa-plus" aria-hidden="true"></i> ADD</button>
-                                            <button type="button" class="btn btn-primary btn-sm pull-right" id="search_partid" data-toggle="modal" data-target="#exampleModal">
-                                                <i class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
-
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Search PartID</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-inline">
-                                                                <label for="">Search By :</label>
-                                                                <select class="form-control" name="Search_by" id="Search_by">
-                                                                    <option value="0">PARTID</option>
-                                                                    <option value="1">DESCRIPTION 1</option>
-                                                                </select>
-                                                                <input type="text" class="form-control" name="text_search" id="text_search">
-                                                                <button class="btn-danger btn" type="button" id="button_search">
-                                                                    <i class="fa fa-search" aria-hidden="true"></i> Search</button>
-
-                                                            </div>
-                                                            <table class="table table-bordered" style="margin-top:10px;">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="width: 20px">PARTID</th>
-                                                                        <th>DESCRIPTION 1</th>
-                                                                        <th style="width: 50px">#</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id="MIANPART">
-
-                                                                </tbody>
-
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <p style="display:none;" id="part_id_get">
                                                 <?php echo $row['part_id'];?>
                                             </p>
@@ -294,11 +288,11 @@
                                         $result = $conn->query($sql);
                                         ?>
                                         <b style="text-decoration:none;">ผู้รับ (Received by)</b>
-                                        <select class="form-control" name="received" id="received">
+                                        <select class="form-control" name="received" id="received" readonly>
                                             <option value="">เลือกผู้รับ</option>
                                             <?php 
                                                 while($row2 = $result->fetch_assoc()){
-                                                    echo '<option value="'.$row['id_member'].'">'.$row2['username'].' | '.$row2['position'].'</option>';
+                                                    echo '<option value="'.$row['id_member'].'" '.($row['received'] == $row2['id_member'] ? 'selected' : '').'>'.$row2['username'].' | '.$row2['position'].'</option>';
                                                 }
                                                 ?>
                                         </select>
@@ -336,7 +330,7 @@
                                 </div>
                                 <div class="card-footer">
 
-                                    <button type="submit" class="btn btn-success float-right" id="submit_form">Process Job.</button>
+                                    
                                 </div>
                             </div>
 

@@ -29,15 +29,18 @@
                   <tbody><tr>
                     
                     <th>เลขที่</th>
-                    <th>วันที่ร้องขอ</th>
-					<th>คนร้องขอ</th>
+					<th>วันที่ร้องขอ</th>
+					<th>วันที่ต้องการเสร็จ</th>
+					<th>ผู้ส่ง</th>
 					<th>ผู้รับ</th>
 					<th>สถานะ</th>
                     <th style="width: 40px">#</th>
                   </tr>
                   <tr>
                     <td>1.</td>
-                    <td>Update software</td>
+                    
+					<td>Update software</td>
+					<td>Update software</td>
 					<td>Update software</td>
 					<td>Update software</td>
                     <td>
