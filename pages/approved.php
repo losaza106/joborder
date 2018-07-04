@@ -1,40 +1,31 @@
-<?php 
+<?php
     include "config/dbh.inc.php";
     session_start();
     $session_id = $_GET['session_id'];
     $sql = "SELECT * FROM  mainjob WHERE session_id='$session_id'";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
-    $now_user_username = $_SESSION['username'];
+    $now_user_username = (isset($_SESSION['username']) ? $_SESSION['username'] : "");
     $request_by = $row['request_by'];
     $sql2 = "SELECT * FROM member WHERE id_member=$request_by";
     $result2 = $conn->query($sql2);
     $row87 = $result2->fetch_assoc();
     $MGR1 = $row87['MGR1'];
     $MGR2 = $row87['MGR2'];
-    if(isset($_GET['login']) AND $_GET['login'] == 1){
+    if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
         if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
-    
+			unset($_SESSION['login']);
         }else{
             echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+			
             exit();
         }
     }else{
-        if(isset($_GET['logined']) AND $_GET['logined'] == 'yes'){
-            if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
-    
-            }else{
-                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
-                exit();
-            }
-        }else{
-            $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            session_unset();
-            $_SESSION['link_1'] = $actual_link;
-            echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
-            exit();
-        }
-        
+        $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        session_unset();
+        $_SESSION['link_1'] = $actual_link;
+        echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+        exit();
     }
 ?>
 <div class="content-wrapper">
@@ -52,7 +43,7 @@
                         <div class="card-body text-center">
                             <button class="btn btn-primary">
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED</button>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as>
                                 <i class="fa fa-times" aria-hidden="true"></i> REJECT</button>
                         </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,7 +67,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close.</button>
-                                        <button type="button" class="btn btn-danger">REJECT.</button>
+                                        <button type="button" class="btn btn-danger" id="btn_reject">REJECT.</button>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +82,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> JOBORDER ID :
+                            <i class="fa fa-book" aria-hidden="true"></i> JOBORDER ID :
                             <?php echo $row['no_id'];?>
                         </h3>
                     </div>

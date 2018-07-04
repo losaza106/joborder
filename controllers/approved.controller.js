@@ -65,4 +65,14 @@ $(document).ready(function(){
     if(checkpd_wt){
         $('#wt_pd_form').css('display', 'block');
     }
+	
+	$('#btn_reject').click(function(){
+		$.ajax({
+			url:'services/reject.service.php',
+			post:'post',
+			success:function(res){
+				console.log(res);
+			}
+		});
+	});
 });

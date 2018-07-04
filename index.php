@@ -1,19 +1,22 @@
 <?php 
 session_start();
-if(!isset($_SESSION['id'])){
-  echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=login.php">';
-  exit();
+
+if(isset($_GET['session_id'])){
+
+}else{
+	if(!isset($_SESSION['id'])){
+		echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=login.php">';
+		exit();
+	}
 }
 
 if(isset($_SESSION['link_1'])){
   $link = strstr($_SESSION['link_1'],"index.php");
   $link2 = $link.'&login=1';
   unset($_SESSION['link_1']);
+  $_SESSION['login'] = 1;
   echo "<META HTTP-EQUIV='Refresh' CONTENT='0;URL=$link2'>";
 }
-
-
-?>
 
 ?>
 <!DOCTYPE html>
