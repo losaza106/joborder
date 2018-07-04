@@ -30,6 +30,7 @@
 ?>
 <div class="content-wrapper">
     <!-- Main content -->
+    <span id="session_id" style="display:none;"><?php echo $_GET['session_id']; ?></span>
     <section class="content mt-3">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
@@ -269,10 +270,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <b style="text-decoration:underline;">รายละเอียดของงาน: (Description of Work Required)</b>
-                                    <textarea class="form-control" name="detail_work" rows="3" placeholder="ข้อความ" readonly>
-                                        <?php echo $row['detail_work'];?>
+                                    <textarea class="form-control" name="detail_work" rows="3" placeholder="ข้อความ" readonly><?php echo $row['detail_work'];?>
                                     </textarea>
-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -307,8 +306,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <b style="text-decoration:none;">หมายเหตุ (Remark)</b>
-                                    <textarea class="form-control" name="remark" rows="3" placeholder="หมายเหตุ" readonly>
-                                        <?php echo $row['remark'];?>
+                                    <textarea class="form-control" name="remark" rows="3" placeholder="หมายเหตุ" readonly><?php echo $row['remark'];?>
                                     </textarea>
 
                                 </div>

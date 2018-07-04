@@ -67,12 +67,51 @@ $(document).ready(function(){
     }
 	
 	$('#btn_reject').click(function(){
-		$.ajax({
-			url:'services/reject.service.php',
-			post:'post',
-			success:function(res){
-				console.log(res);
-			}
-		});
+        var session_id = $('#session_id').text();
+        var message = $('#message-text').val();
+        if(message == ""){
+            swal({
+                type: 'error',
+                title: 'Wrong!...',
+                text: 'Please fill Comment!.'
+            });
+        }else{
+            $.ajax({
+                url:'services/reject.service.php',
+                type:'post',
+                data:{action:1,session_id:session_id,message:message},
+                success:function(res){
+                    var data = $.parseJSON(res);
+                    if(data.success){
+                        swal({
+                            title: 'Success.',
+                            text: "Reject Success.",
+                            type: 'success',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location = 'index.php';
+                            }
+                        });
+                    }else{
+                        swal({
+                            type: 'error',
+                            title: 'Error...',
+                            text: 'Something Wrong!..'
+                        });
+                    }
+                },
+                beforeSend: function() {
+                    swal({
+                        title: 'Process..',
+                        allowOutsideClick: false
+                    });
+                    swal.showLoading();
+                }
+            });
+        }
+		
 	});
 });

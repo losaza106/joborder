@@ -17,7 +17,7 @@ if(isset($_SESSION['link_1'])){
   $_SESSION['login'] = 1;
   echo "<META HTTP-EQUIV='Refresh' CONTENT='0;URL=$link2'>";
 }
-
+session_write_close();
 ?>
 <!DOCTYPE html>
 <html>
