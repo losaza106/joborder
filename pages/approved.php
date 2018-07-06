@@ -12,21 +12,21 @@
     $row87 = $result2->fetch_assoc();
     $MGR1 = $row87['MGR1'];
     $MGR2 = $row87['MGR2'];
-    if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
-        if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
-			unset($_SESSION['login']);
-        }else{
-            echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+    // if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
+        // if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
+			// unset($_SESSION['login']);
+        // }else{
+            // echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
 			
-            exit();
-        }
-    }else{
-        $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        session_unset();
-        $_SESSION['link_1'] = $actual_link;
-        echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
-        exit();
-    }
+            // exit();
+        // }
+    // }else{
+        // $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        // session_unset();
+        // $_SESSION['link_1'] = $actual_link;
+        // echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+        // exit();
+    // }
 ?>
 <div class="content-wrapper">
     <!-- Main content -->
@@ -42,7 +42,7 @@
                                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> APPROVED JOBORDER</h3>
                         </div>
                         <div class="card-body text-center">
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary" id="button_approved">
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED</button>
                             <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as>
                                 <i class="fa fa-times" aria-hidden="true"></i> REJECT</button>

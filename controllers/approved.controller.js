@@ -76,7 +76,16 @@ $(document).ready(function(){
                 text: 'Please fill Comment!.'
             });
         }else{
-            $.ajax({
+			swal({
+  title: 'Confirm',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes.',
+}).then((result) => {
+  if (result.value) {
+    $.ajax({
                 url:'services/reject.service.php',
                 type:'post',
                 data:{action:1,session_id:session_id,message:message},
@@ -111,7 +120,53 @@ $(document).ready(function(){
                     swal.showLoading();
                 }
             });
+  }
+})
+            
         }
 		
+	});
+	
+	$('#button_approved').click(function(){
+		var session_id = $('#session_id').text();
+		swal({
+  title: 'Comfirm?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes.'
+}).then((result) => {
+  if (result.value) {
+    $.ajax({
+									url:'services/approved.service.php',
+									type:'post',
+									data:{action:1,session_id:session_id},
+									success:function(res){
+										var data = $.parseJSON(res);
+										if(data.success){
+                        swal({
+                            title: 'Success.',
+                            text: "Success, wait Receive Approved.",
+                            type: 'success',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location = 'index.php';
+                            }
+                        });
+                    }else{
+                        swal({
+                            type: 'error',
+                            title: 'Error...',
+                            text: 'Something Wrong!..'
+                        });
+                    }
+									}
+								});
+  }
+})
 	});
 });

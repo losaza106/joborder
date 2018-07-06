@@ -1,9 +1,9 @@
 <?php 
 require_once('../config/dbh.inc.php');
-$sql = "SELECT * FROM mainjob ORDER BY no_id DESC";
+
 if(isset($_POST['action']) && $_POST['action'] == 1){
+	$sql = "SELECT * FROM mainjob ORDER BY no_id DESC";
 	$result = $conn->query($sql);
-	
 	$data = [];
 	$table = "";
 	$td = "";
