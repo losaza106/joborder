@@ -5,36 +5,63 @@
     $sql = "SELECT * FROM  mainjob WHERE session_id='$session_id'";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
+    $user_id = $_SESSION['id'];
     $now_user_username = (isset($_SESSION['username']) ? $_SESSION['username'] : "");
     $request_by = $row['request_by'];
+    $received = $row['received'];
     $sql2 = "SELECT * FROM member WHERE id_member=$request_by";
     $result2 = $conn->query($sql2);
     $row87 = $result2->fetch_assoc();
-    $MGR1 = $row87['MGR1'];
-    $MGR2 = $row87['MGR2'];
-    // if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
-        // if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
-			// unset($_SESSION['login']);
-        // }else{
-            // echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
-			
-            // exit();
-        // }
-    // }else{
-        // $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        // session_unset();
-        // $_SESSION['link_1'] = $actual_link;
-        // echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
-        // exit();
-    // }
+    $MGR1 = ($row87['MGR1'] == "" ? "" : $row87['MGR1']);
+    $MGR2 = ($row87['MGR2'] == "" ? "" : $row87['MGR2']);
+    if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
+        if($row['status'] == 0){
+            if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
+                unset($_SESSION['login']);
+            }else{
+                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+                exit();
+            }
+        }else if($row['status'] == 1){
+            if($row['received'] == $user_id && isset($_GET['login']) && $_GET['login'] == 1 && isset($_SESSION['login'])){
+                unset($_SESSION['login']);
+            }else{
+                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+                exit();
+            }
+        }else if($row['status'] == 4){
+            $sql2 = "SELECT * FROM member WHERE id_member=$received";
+            $result2 = $conn->query($sql2);
+            $row87 = $result2->fetch_assoc();
+            $MGR1 = ($row87['MGR1'] == "" ? "" : $row87['MGR1']);
+            $MGR2 = ($row87['MGR2'] == "" ? "" : $row87['MGR2']);
+            if(($MGR1 == $now_user_username || $MGR2 == $now_user_username) && isset($_GET['login']) && $_GET['login'] == 1 && isset($_SESSION['login'])){
+                unset($_SESSION['login']);
+            }else{
+                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+                exit();
+            }
+        }
+    }else{
+        $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        session_unset();
+        $_SESSION['link_1'] = $actual_link;
+        echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+        exit();
+    }
 ?>
 <div class="content-wrapper">
     <!-- Main content -->
+    <span id="status" style="display:none;"><?php echo $row['status']; ?></span>
     <span id="session_id" style="display:none;"><?php echo $_GET['session_id']; ?></span>
+    <span id="received" style="display:none;"><?php echo $row['received']; ?></span>
+    <span id="no_id" style="display:none;"><?php echo $row['no_id']; ?></span>
+    <span id="req" style="display:none;"><?php echo $row['request_by']; ?></span>
     <section class="content mt-3">
         <div class="container-fluid">
+        
             <!-- Small boxes (Stat box) -->
-            <div class="row">
+            <div class="row" id="if_reject">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -44,8 +71,16 @@
                         <div class="card-body text-center">
                             <button class="btn btn-primary" id="button_approved">
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED</button>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as>
+                                <button class="btn btn-primary" id="button_approved2">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED2</button>
+                                <button class="btn btn-primary" id="button_approved3">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED3</button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as id="reject_button">
                                 <i class="fa fa-times" aria-hidden="true"></i> REJECT</button>
+                                <button class="btn btn-danger" id="reject_button2">
+                                <i class="fa fa-times" aria-hidden="true"></i> REJECT2</button>
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo" as id="reject_button3">
+                                <i class="fa fa-times" aria-hidden="true"></i> REJECT3</button>
                         </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -73,11 +108,68 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">
+                                            <i class="fa fa-commenting" aria-hidden="true"></i> Reject Message 2</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+
+                                            <div class="form-group">
+
+                                                <textarea class="form-control" id="message-text2"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close.</button>
+                                        <button type="button" class="btn btn-danger" id="btn_reject2">REJECT.</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">
+                            <i class="fa fa-bell" aria-hidden="true"></i> STATUS</h3>
+                        </div>
+                        <div class="card-body text-center">
+                           <?php 
+                           if($row['status'] == 0){
+                            echo "รอ Manager ของผู้ส่ง Approved";
+                           }else if($row['status'] == 1){
+                            echo "รอผู้รับ Approved";
+                           }else if($row['status'] == 2){
+                            echo "Reject โดย Manager ของผู้ส่ง";
+                           }else if($row['status'] == 3){
+                            echo "Reject โดย ผู้ส่ง";
+                           }else if($row['status'] == 4){
+                            echo "รอ Manager ของผู้รับ Approved";
+                           }else if($row['status'] == 5){
+                            echo "Reject โดย Manager ของผู้รับ";
+                           }else{
+                            echo "Success.";
+                           }
+                           ?>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -374,6 +466,3 @@
 
 </div>
 <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-</div>

@@ -266,7 +266,7 @@ if($result){
 	$sql = "SELECT email,id_member FROM member WHERE username='$mgr1' OR username='$mgr2'";
 	$result = $conn->query($sql);
 	if($result){
-		/* while($row = $result->fetch_assoc()){
+		while($row = $result->fetch_assoc()){
 			$mail = new PHPMailer;
             $mail->CharSet = "utf-8";
             $mail->Port = $port_mail;
@@ -296,7 +296,7 @@ if($result){
                 <html>
                     <head>
                         <meta charset=utf-8'/>
-                        <title>ACKNOWLEDGE Spcial Product</title>
+                        <title>APPROVED</title>
                     </head>
                     <body>
 						<meta charset=utf-8'/>
@@ -330,7 +330,7 @@ if($result){
                     ];
                 }   
             }
-		} */
+		}
 	}
 	$response = [
 		"success"=>true,

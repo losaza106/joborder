@@ -24,7 +24,11 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">รายการ Job Order</h3>
+              <h3 class="card-title pull-left">รายการ Job Order</h3>
+              <select class="form-control col-lg-2 pull-right" id="sort_by">
+                <option value="1">Normal</option>
+                <option value="2">TEMP</option>
+              </select>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -44,7 +48,7 @@
                 </thead>
                 <tbody id="data_table">
 
-                  
+
 
                 </tbody>
               </table>

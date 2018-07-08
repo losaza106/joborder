@@ -2,7 +2,11 @@
 require_once('../config/dbh.inc.php');
 
 if(isset($_POST['action']) && $_POST['action'] == 1){
-	$sql = "SELECT * FROM mainjob ORDER BY no_id DESC";
+	if($_POST['search_by'] == 1){
+		$sql = "SELECT * FROM mainjob WHERE no_id NOT LIKE '%TEMP%' ORDER BY no_id DESC";
+	}else{
+		$sql = "SELECT * FROM mainjob WHERE no_id LIKE '%TEMP%' ORDER BY no_id DESC";
+	}
 	$result = $conn->query($sql);
 	$data = [];
 	$table = "";

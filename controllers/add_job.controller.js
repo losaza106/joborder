@@ -44,8 +44,26 @@ $(document).ready(function () {
     });
 
     $('#add_partid').click(function () {
-        $('#add_part_id').after('<input type="text" class="form-control" id="part_id" name="part_id[]" placeholder="หมายเลขชิ้นงาน">');
-        $('#add_part_name').after('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน">');
+        var part_id = $('#part_id').val();
+        if(part_id == ""){
+            $.ajax({
+                url: 'services/nextID.service.php',
+                type: 'post',
+                success: function (res) {
+                    $('#part_id').val(res);
+                }
+            });
+        }else{
+            $.ajax({
+                url: 'services/nextID.service.php',
+                type: 'post',
+                success: function (res) {
+                    $('#add_part_id').after('<input type="text" class="form-control" id="part_id" name="part_id[]" placeholder="หมายเลขชิ้นงาน" value="' + res + '">');
+                    $('#add_part_name').after('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน">');
+                }
+            });
+        }
+        
     });
 
     $('#search_partid').click(function () {
