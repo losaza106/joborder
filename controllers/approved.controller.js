@@ -55,7 +55,7 @@ $(document).ready(function () {
             url: 'services/logout.service.php',
             type: 'get',
             success: function (res) {
-                location.reload();
+                location.replace(res);
             }
         });
     });

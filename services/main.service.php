@@ -44,7 +44,8 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 		}else{
 			$td .= "<td>สำเร็จ</td>";
 		}
-		$td .= "<td><button class='btn btn-info'><i class='fa fa-eye' aria-hidden='true'></i> View</button></td>";
+		$session_id =$row['session_id'];
+		$td .= "<td><a href='?p=view&session_id=$session_id' class='btn btn-info'><i class='fa fa-eye' aria-hidden='true'></i> View</a></td>";
 		$td .= "</tr>";
 	}
 	$table .= $td;

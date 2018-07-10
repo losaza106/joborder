@@ -2,6 +2,11 @@
 session_start();
 if(isset($_SESSION['id'])){
   echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+ 
+}
+if(isset($_GET['clear']) && $_GET['clear'] == 1){
+	session_unset();
+    session_destroy();
 }
 ?>
 <!DOCTYPE html>
