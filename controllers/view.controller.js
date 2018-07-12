@@ -11,7 +11,9 @@ $(document).ready(function () {
     });
 	var req = $('#req').text();
 	var received_by = $('#true_received').text();
-	if(req === received_by){
+	var status_doc = $('#status_doc').text();
+
+	if(req === received_by && status_doc == 6){
 		
 	}else{
 		$('#if_status_renew').hide();

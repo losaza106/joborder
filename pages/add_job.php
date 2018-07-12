@@ -254,7 +254,7 @@
                                     <div class="col-md-12">
                                         <?php 
 										$user_id = $_SESSION['id'];
-                                        $sql = "SELECT id_member,username,position FROM member WHERE id_member != '$user_id'";
+                                        $sql = "SELECT id_member,username,position FROM member WHERE id_member != '$user_id' AND (MGR1 != '' OR MGR2 != '')";
                                         $result = $conn->query($sql);
                                         ?>
                                         <b style="text-decoration:none;">ผู้รับ (Received by)</b>

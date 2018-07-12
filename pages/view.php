@@ -6,6 +6,29 @@
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     $user_id = $_SESSION['id'];
+	
+	$sql_request = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row['request_by'].'';
+	$result_request = $conn->query($sql_request);
+	$row_request = $result_request->fetch_assoc();
+	$row['request_by_fullname'] = $row_request['fullname'];
+	$row['request_by_depart'] = $row_request['department'];
+	
+	$sql_approved_order = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row['approved_order'].'';
+	$result_approved_order = $conn->query($sql_approved_order);
+	$row_approved_order = $result_approved_order->fetch_assoc();
+	$row['approved_order_fullname'] = $row_approved_order['fullname'];
+	
+	$sql_received = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row['received'].'';
+	$result_received = $conn->query($sql_received);
+	$row_received = $result_received->fetch_assoc();
+	$row['received_fullname'] = $row_received['fullname'];
+	$row['received_by_depart'] = $row_received['department'];
+	
+	$sql_approved_received = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row['approved_received'].'';
+	$result_approved_received = $conn->query($sql_approved_received);
+	$row_approved_received = $result_approved_received->fetch_assoc();
+	$row['approved_received_fullname'] = $row_approved_received['fullname'];
+	
     session_write_close();
     
 ?>
@@ -15,6 +38,8 @@
     <span id="received" style="display:none;"><?php echo $row['request_by']; ?></span> <!-- ID ของคนที่ เจ้าของเอกสาร -->
 	<span id="req" style="display:none;"><?php echo $user_id; ?></span> <!-- ID ของคนที่ Login อยู่ -->
 	<span id="true_received" style="display:none;"><?php echo $row['received']; ?></span>
+	<span id="status_doc" style="display:none;"><?php echo $row['status']; ?></span>
+
     <section class="content mt-3">
         <div class="container-fluid">
         
@@ -105,6 +130,75 @@
 				 
             </div>
 			
+			
+			<?php 
+			if($user_id == $row['request_by']){
+				$sql = "SELECT mainjob.no_id,mainjob.request_by AS main_req,mainjob.status_renew,renew_detail.remark,renew_detail.due_date,renew_detail.request_by,renew_detail.status FROM `mainjob` INNER JOIN renew_detail ON mainjob.no_id = renew_detail.no_id";
+				$result_renew = $conn->query($sql);
+				$row_renew = $result_renew->fetch_assoc();
+				if($row_renew['main_req'] == $user_id && $row_renew['status_renew'] == 1 && $row_renew['status'] == 0){
+					$show = "
+					<div class='row'>
+					<div class='col-md-6 offset-md-3'>
+					<div class='form-group'>
+                    <label>วันที่ต้องการเสร็จใหม่</label>
+                    <input type='date' class='form-control' placeholder='Enter ...' value=".$row_renew['due_date']." readonly='readonly'>
+                  </div>
+				  <div class='form-group'>
+                    <label>หมายเหตุ</label>
+                    <textarea class='form-control' rows='3' placeholder='Enter ...' readonly='readonly'>".$row_renew['remark']."</textarea>
+                  </div>
+					<button class='btn btn-primary'>Approved</button><button class='btn btn-danger' data-toggle='modal' data-target='#exampleModal2' data-whatever='@mdo'>Reject</button>
+					</div>
+					</div>";
+					echo '<div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">
+                            <i class="fa fa-repeat" aria-hidden="true"></i> ขอกำหนดวันที่เสร็จใหม่</h3>
+                        </div>
+                        <div class="card-body">
+						'.$show.'
+                           
+						   
+						
+                        </div>
+                        
+                    </div>
+                </div>
+				 
+            </div>';
+				}else{
+					$show = "";
+				}
+				
+			}
+			?>
+			<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reject วันที่กำหนดใหม่</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">หมายเหตุ:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -336,6 +430,24 @@
                                     <textarea class="form-control" name="remark" rows="3" placeholder="หมายเหตุ" readonly><?php echo $row['remark'];?>
                                     </textarea>
 
+                                </div>
+								<div class="col-md-6 mt-3">
+                                    <b style="text-decoration:underline;">ผู้ส่ง (Ordered By) : <?=$row['request_by_fullname']?></b>
+                                </div>
+								<div class="col-md-6 mt-3">
+                                    <b style="text-decoration:underline;">ผู้รับ (Received By) : <?=$row['received_fullname']?></b>
+                                </div>
+								<div class="col-md-6">
+                                    <b style="text-decoration:underline;">แผนก (DIV.) : <?=$row['request_by_depart']?></b>
+                                </div>
+								<div class="col-md-6">
+                                    <b style="text-decoration:underline;">แผนก (DIV.) : <?=$row['received_by_depart']?></b>
+                                </div>
+								<div class="col-md-6">
+                                    <b style="text-decoration:underline;">ผู้รับรอง (DIVMGR/SENMGR.) : <?=$row['approved_order_fullname']?></b>
+                                </div>
+								<div class="col-md-6 mb-3">
+                                    <b style="text-decoration:underline;">ผู้รับรอง (DIVMGR/SENMGR.) : <?=$row['approved_received_fullname']?></b>
                                 </div>
                                 <div class="col-md-12">
                                     <?php 
