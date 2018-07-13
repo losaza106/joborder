@@ -12,6 +12,56 @@ $(document).ready(function () {
 	var req = $('#req').text();
 	var received_by = $('#true_received').text();
 	var status_doc = $('#status_doc').text();
+    var session_id = $('#session_id').text();
+    var id_renew = $('#id_renew').text();
+    var request_due_date = $('#request_due_date').text();
+    $('#reject_due_btn').click(function(){
+        
+        var remark_reject = $('#remark_reject').val();
+        if(remark_reject == ""){
+            swal({
+                type: 'error',
+                title: 'Wrong!...',
+                text: 'Please fill Comment!.'
+            });
+        }else{
+            $.ajax({
+                url:'services/reject.service.php',
+                type:'post',
+                data:{action:4,session_id:session_id,id_renew:id_renew,comment:remark_reject,request_by:request_due_date},
+                success:function(res){
+                    var data = $.parseJSON(res);
+                    if (data.success) {
+                        swal({
+                            title: 'Success.',
+                            text: "Sucess Reject Success.",
+                            type: 'success',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location = 'index.php';
+                            }
+                        });
+                    } else {
+                        swal({
+                            type: 'error',
+                            title: 'Error...',
+                            text: 'Something Wrong!..'
+                        });
+                    }
+                },
+                beforeSend: function () {
+                    swal({
+                        title: 'Process..',
+                        allowOutsideClick: false
+                    });
+                    swal.showLoading();
+                }
+            });
+        }
+    });
 
 	if(req === received_by && status_doc == 6){
 		
