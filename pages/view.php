@@ -30,7 +30,17 @@
 	$row['approved_received_fullname'] = $row_approved_received['fullname'];
 	
     session_write_close();
-    
+    $sql = 'SELECT MGR1,MGR2 FROM member WHERE id_member='.$row['request_by'].'';
+    $result = $conn->query($sql);
+    $row_req = $result->fetch_assoc();
+    $MGR1 = $row_req['MGR1'];
+    $MGR2 = $row_req['MGR2'];
+
+    $sql = 'SELECT MGR1,MGR2 FROM member WHERE id_member='.$row['received'].'';
+    $result = $conn->query($sql);
+    $row_req = $result->fetch_assoc();
+    $MGR1_received = $row_req['MGR1'];
+    $MGR2_received = $row_req['MGR2'];
 ?>
     <div class="content-wrapper">
         <!-- Main content -->
@@ -59,15 +69,28 @@
                         <div class="card-body text-center">
                             <?php 
                            if($row['status'] == 0){
-                            echo "รอ Manager ของผู้ส่ง Approved";
-                           }else if($row['status'] == 1){
-                            echo "รอผู้รับ Approved";
+                               if($MGR1===$_SESSION['username'] || $MGR2===$_SESSION['username']){
+                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Manager Approved (ORDER)</a>";
+                               }else{
+                                echo 'รอ Manager ของผู้ส่ง Approved';
+                               }
+                        }else if($row['status'] == 1){
+                            if($row['received'] == $_SESSION['id']){
+                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Received Approved</a>";
+                            }else{
+                                echo 'รอ ผู้รับ Approved';
+                            }
+                            
                            }else if($row['status'] == 2){
                             echo "Reject โดย Manager ของผู้ส่ง";
                            }else if($row['status'] == 3){
                             echo "Reject โดย ผู้ส่ง";
                            }else if($row['status'] == 4){
-                            echo "รอ Manager ของผู้รับ Approved";
+                            if($MGR1_received === $_SESSION['username'] || $MGR2_received === $_SESSION['username']){
+                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Manager Approved (Received)</a>";
+                               }else{
+                                echo "รอ Manager ของผู้รับ Approved";
+                               }
                            }else if($row['status'] == 5){
                             echo "Reject โดย Manager ของผู้รับ";
                            }else{
@@ -93,9 +116,10 @@
 						if($row['status_renew'] == 1){
 							echo "ส่งคำขอไปแล้ว รอ Approved จากผู้ส่ง";
 						}else{
-							echo '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-repeat" aria-hidden="true"></i> กำหนดวันที่เสร็จใหม่</button>';
+                            echo '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-repeat" aria-hidden="true"></i> กำหนดวันที่เสร็จใหม่</button>';
 						}
-						?>
+                        ?>
+                        
 
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -137,7 +161,7 @@
 			if($user_id == $row['request_by']){
                 $no_id = $row['no_id'];
                 
-                $sql = "SELECT mainjob.no_id,mainjob.request_by AS main_req,mainjob.status_renew,renew_detail.remark,renew_detail.due_date,renew_detail.request_by,renew_detail.status,renew_detail.id_renew FROM `mainjob`, `renew_detail` WHERE mainjob.session_id = '$session_id' && renew_detail.no_id = '$no_id'";
+                $sql = "SELECT mainjob.no_id,mainjob.request_by AS main_req,mainjob.status_renew,renew_detail.remark,renew_detail.due_date,renew_detail.request_by,renew_detail.status,renew_detail.id_renew,renew_detail.due_date FROM `mainjob`, `renew_detail` WHERE mainjob.session_id = '$session_id' && renew_detail.no_id = '$no_id' ORDER BY renew_detail.id_renew DESC LIMIT 1";
 				$result_renew = $conn->query($sql);
 				$row_renew = $result_renew->fetch_assoc();
 				if($row_renew['main_req'] == $user_id && $row_renew['status_renew'] == 1 && $row_renew['status'] == 0){
@@ -152,7 +176,7 @@
                     <label>หมายเหตุ</label>
                     <textarea class='form-control' rows='3' placeholder='Enter ...' readonly='readonly'>".$row_renew['remark']."</textarea>
                   </div>
-					<button class='btn btn-primary'>Approved</button><button class='btn btn-danger' data-toggle='modal' data-target='#exampleModal2' data-whatever='@mdo'>Reject</button>
+					<button class='btn btn-primary' id='btn_approved_date'>Approved</button><button class='btn btn-danger' data-toggle='modal' data-target='#exampleModal2' data-whatever='@mdo'>Reject</button>
 					</div>
 					</div>";
 					echo '<div class="row">
@@ -171,8 +195,9 @@
 				 
             </div>';
             echo '<span id="id_renew" style="display:none;">'.$row_renew['id_renew'].'</span>';
-            echo '<span id="request_due_date" style="display:none;">'.$row_renew['request_by'].'</span>';
-				}else{
+            echo '<span id="request_by_due_date" style="display:none;">'.$row_renew['request_by'].'</span>';
+            echo '<span id="due_date" style="display:none;">'.$row_renew['due_date'].'</span>';
+        }else{
 					$show = "";
 				}
 				
@@ -206,11 +231,50 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">
+                            <h3 class="card-title pull-left">
                                 <i class="fa fa-book" aria-hidden="true"></i> JOBORDER ID :
                                 <?php echo $row['no_id'];?>
                             </h3>
+                            <?php 
+                            if($row['status'] == 6){
+                                echo '<button data-toggle="modal" data-target="#exampleModal5" data-whatever="@mdo" class="btn btn-info btn-sm pull-right">Record Working</button>';
+                            }
+                            ?>
                         </div>
+                        <div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">WORKING TIME RECORD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <h5 class="pull-left">รายการบันทึกเวลาการทำงาน</h5>
+          <a href="?p=record_working&session_id=<?php echo $session_id;?>" class="btn btn-primary pull-right btn-sm">สร้างใบบันทึกเวลา</a>
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
                         <!-- /.card-header -->
                         <form name="add_job" id="add_job" enctype="multipart/form-data">
                             <div class="card-body">
@@ -474,7 +538,7 @@
                                             <option value="">เลือกผู้รับ</option>
                                             <?php 
                                                 while($row2 = $result->fetch_assoc()){
-                                                    echo '<option value="'.$row['id_member'].'" '.($row['received'] == $row2['id_member'] ? 'selected' : '').'>'.$row2['username'].' | '.$row2['position'].'</option>';
+                                                    echo '<option value="'.$row2['id_member'].'" '.($row['received'] == $row2['id_member'] ? 'selected' : '').'>'.$row2['username'].' | '.$row2['position'].'</option>';
                                                 }
                                                 ?>
                                         </select>
@@ -508,6 +572,54 @@
                                 ?>
 
                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">วันที่ต้องการเสร็จใหม่</th>
+      <th scope="col">เหตุผล</th>
+      <th scope="col">ผู้แจ้ง</th>
+      <th scope="col">ผู้รับรอง</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php 
+    $id_doc = $row['no_id'];
+    $sql = "SELECT due_date,remark,request_by,approved_by FROM renew_detail WHERE no_id='$id_doc'";
+    $result = $conn->query($sql);
+    while($row_due_date = $result->fetch_assoc()){
+        if($row_due_date['approved_by'] != 0){
+            $sql_approved_by = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row_due_date['approved_by'].'';
+	        $result_approved_by = $conn->query($sql_approved_by);
+	        $row_approved_by = $result_approved_by->fetch_assoc();
+	        $row_due_date['approved_by_fullname'] = $row_approved_by['fullname'];
+	        
+        }else{
+            $row_due_date['approved_by_fullname'] = "";
+        }
+
+        if($row_due_date['request_by'] != 0){
+            $sql_request_by = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row_due_date['request_by'].'';
+	        $result_request_by = $conn->query($sql_request_by);
+	        $row_request_by = $result_request_by->fetch_assoc();
+	        $row_due_date['request_by_fullname'] = $row_request_by['fullname'];
+	        
+        }else{
+            $row_due_date['approved_by_fullname'] = "";
+        }
+        echo '<tr>
+        <th scope="row">'.$row_due_date['due_date'].'</th>
+        <td>'.$row_due_date['remark'].'</td>
+        <td>'.$row_due_date['request_by_fullname'].'</td>
+        <td>'.$row_due_date['approved_by_fullname'].'</td>
+      </tr>';
+    }
+    ?>
+    
+    
+  </tbody>
+</table>
                                     </div>
                                 </div>
                                 <div class="card-footer">

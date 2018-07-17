@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2018 at 11:01 AM
--- Server version: 10.1.33-MariaDB
--- PHP Version: 7.2.6
+-- Generation Time: Jul 18, 2018 at 12:50 AM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -68,8 +68,10 @@ CREATE TABLE `mainjob` (
 --
 
 INSERT INTO `mainjob` (`no_id`, `request_date`, `due_date`, `part_name`, `part_id`, `tool_name`, `asset_id`, `tool_type`, `tool_type_other`, `wt_new`, `wt_replace`, `wt_other`, `wt_modify`, `wt_sample`, `wt_sample_form`, `wt_repair`, `wt_pd`, `other_wt_form`, `wt_pd_form`, `estimated`, `detail_work`, `detail_file`, `remark`, `received`, `attachedfile`, `request_by`, `status`, `session_id`, `approved_order`, `approved_received`, `comment`, `status_renew`) VALUES
-('001', '2018-07-01', '2018-07-03', 'QRO309-DD GEAR TRAY,MAGNETIC BALLAST 26W.,QRO309-DD LEFT REFL.', 'SSS1081-S1,SSS1081-E1,SSS1081-A2', 'ToolName', 'Assets', 6, 'asdasdasdasd', 'Y', '', 'Y', '', '', 'fsdfsdf', 'Y', 'Y', 'teadasd', 'asdasd', 'estimated ', 'Ds work', '1__1666923246.jpg,2__967848191.jpg', 'Remark', 3, 'coverfire__310011072.png', 4, 6, '769655811971552863', 1, 2, 'rytet', 1),
-('TEMP002', '2018-07-01', '2018-07-14', 'test', 'test', 'aaas', 'ssss', 6, 'ssssss', '', 'Y', '', '', 'Y', 'test', '', '', '', '', 'testss', 'work', '', 'test', 3, '', 4, 0, '21193672361880955076', 0, 0, '', 0);
+('001', '2018-07-01', '2018-07-19', 'QRO309-DD GEAR TRAY,MAGNETIC BALLAST 26W.,QRO309-DD LEFT REFL.', 'SSS1081-S1,SSS1081-E1,SSS1081-A2', 'ToolName', 'Assets', 6, 'asdasdasdasd', 'Y', '', 'Y', '', 'Y', 'fsdfsdf', 'Y', 'Y', 'teadasd', 'asdasd', 'estimated ', 'Ds work', '1__1666923246.jpg,2__967848191.jpg', 'Remark', 3, 'coverfire__310011072.png', 4, 6, '769655811971552863', 1, 2, 'rytet', 1),
+('002', '2018-07-01', '2018-07-14', 'test', 'test', 'aaas', 'ssss', 6, 'ssssss', '', 'Y', '', '', 'Y', 'test', '', '', '', '', 'testss', 'work', '', 'test', 3, '', 4, 6, '21193672361880955076', 0, 0, '', 1),
+('003', '2018-07-14', '2018-07-21', 'FL_#4 BRACKET 25*50*L710,QRO309-DD LEFT REFL.', 'TA1081-2,SSS1081-A2', 'test1', 'test', 3, '', '', 'Y', '', 'Y', '', '', '', '', '', '', 'esssaa', 'Desssccc', '', 'testtssatast', 3, '', 4, 6, '1645537802957981642', 5, 2, '', 0),
+('TEMP004', '2018-07-14', '2018-07-21', 'dasdasd', 'asdas', 'asdsadsa', 'asd', 2, '', '', '', 'Y', '', '', '', '', '', 'asdasd', '', 'asdasd', 'asdasdasd', '', 'asdasd', 4, '', 3, 4, '1850906761356916025', 2, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,7 @@ CREATE TABLE `member` (
 INSERT INTO `member` (`id_member`, `username`, `password`, `position`, `email`, `fullname`, `department`, `MGR1`, `MGR2`) VALUES
 (1, 'aa', '1234', 'ITMGR', 'watchnung001@gmail.com', 'Atichart Sathusen', 'IT', '', ''),
 (2, 'jh', '1234', 'PDMGR', 'poiuytrewqq1064@gmail.com', 'Jan Holldorff', 'PD', '', ''),
-(3, 'ss', '1234', 'PD', 'poiuytreqq1063@gmail.com', 'Stephen Dunk', 'PD', 'jh', ''),
+(3, 'ss', '1234', 'PD', 'poiuytrewqq1063@gmail.com', 'Stephen Dunk', 'PD', 'jh', ''),
 (4, 'SSGR', '1234', 'IT', 'poiuytrewqq106@gmail.com', 'John Doe', 'IT', 'aa', 'sd'),
 (5, 'sd', '1234', 'ITMGR', 'poiuytrewqq1062@gmail.com', 'Starduct Drink', 'IT', '', '');
 
@@ -113,15 +115,18 @@ CREATE TABLE `renew_detail` (
   `due_date` date NOT NULL,
   `request_by` int(11) NOT NULL,
   `approved_by` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `remark_reject` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `renew_detail`
 --
 
-INSERT INTO `renew_detail` (`id_renew`, `no_id`, `remark`, `due_date`, `request_by`, `approved_by`, `status`) VALUES
-(5, '001', 'dede', '2018-07-15', 1, 0, 0);
+INSERT INTO `renew_detail` (`id_renew`, `no_id`, `remark`, `due_date`, `request_by`, `approved_by`, `status`, `remark_reject`) VALUES
+(5, '001', 'dede', '2018-07-19', 3, 4, 1, 'sadasdas'),
+(6, '002', 'asdsad', '2018-07-14', 3, 0, 0, ''),
+(7, '001', '8989', '2018-07-22', 3, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -148,7 +153,8 @@ INSERT INTO `temp_part` (`temp_part`) VALUES
 -- Indexes for table `mainjob`
 --
 ALTER TABLE `mainjob`
-  ADD PRIMARY KEY (`no_id`);
+  ADD PRIMARY KEY (`no_id`),
+  ADD KEY `session_id` (`session_id`);
 
 --
 -- Indexes for table `member`
@@ -182,7 +188,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `renew_detail`
 --
 ALTER TABLE `renew_detail`
-  MODIFY `id_renew` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_renew` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

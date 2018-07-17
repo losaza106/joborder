@@ -14,7 +14,8 @@ $(document).ready(function () {
 	var status_doc = $('#status_doc').text();
     var session_id = $('#session_id').text();
     var id_renew = $('#id_renew').text();
-    var request_due_date = $('#request_due_date').text();
+    var request_by_due_date = $('#request_by_due_date').text();
+    var due_date = $('#due_date').text();
     $('#reject_due_btn').click(function(){
         
         var remark_reject = $('#remark_reject').val();
@@ -28,7 +29,7 @@ $(document).ready(function () {
             $.ajax({
                 url:'services/reject.service.php',
                 type:'post',
-                data:{action:4,session_id:session_id,id_renew:id_renew,comment:remark_reject,request_by:request_due_date},
+                data:{action:4,session_id:session_id,id_renew:id_renew,comment:remark_reject,request_by:request_by_due_date},
                 success:function(res){
                     var data = $.parseJSON(res);
                     if (data.success) {
@@ -62,6 +63,56 @@ $(document).ready(function () {
             });
         }
     });
+    
+    $('#btn_approved_date').click(function(){
+        swal({
+            title: 'Are you sure?',
+            text: "Confirm Approved?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,'
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
+                  url:'services/renew.service.php',
+                  type:'post',
+                  data:{action:2,session_id:session_id,id_renew:id_renew,due_date:due_date,request_by:request_by_due_date},
+                  success:function(res){
+                    var data = $.parseJSON(res);
+                    if (data.success) {
+                        swal({
+                            title: 'Success.',
+                            text: "Sucess",
+                            type: 'success',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location = 'index.php';
+                            }
+                        });
+                    } else {
+                        swal({
+                            type: 'error',
+                            title: 'Error...',
+                            text: 'Something Wrong!..'
+                        });
+                    }
+                  },
+                  beforeSend: function () {
+                    swal({
+                        title: 'Process..',
+                        allowOutsideClick: false
+                    });
+                    swal.showLoading();
+                }
+              });
+            }
+          })
+    });
 
 	if(req === received_by && status_doc == 6){
 		
@@ -91,6 +142,13 @@ $(document).ready(function () {
             type: 'get',
             success: function (res) {
                 location.replace(res);
+            },
+            beforeSend: function () {
+                swal({
+                    title: 'Process..',
+                    allowOutsideClick: false
+                });
+                swal.showLoading();
             }
         });
     });
