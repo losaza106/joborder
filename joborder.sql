@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2018 at 12:50 AM
+-- Generation Time: Jul 19, 2018 at 12:50 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -145,6 +145,67 @@ CREATE TABLE `temp_part` (
 INSERT INTO `temp_part` (`temp_part`) VALUES
 ('TEMP010');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `working_record`
+--
+
+CREATE TABLE `working_record` (
+  `id_w_record` varchar(30) NOT NULL,
+  `no_id` varchar(10) NOT NULL,
+  `tool_type` int(11) NOT NULL,
+  `tool_type_other` varchar(80) NOT NULL,
+  `wt_new` int(11) NOT NULL,
+  `wt_replace` int(11) NOT NULL,
+  `wt_other` int(11) NOT NULL,
+  `wt_modify` int(11) NOT NULL,
+  `wt_sample` int(11) NOT NULL,
+  `wt_sample_form` varchar(80) NOT NULL,
+  `wt_other_form` varchar(80) NOT NULL,
+  `wt_repair` int(11) NOT NULL,
+  `wt_pd` int(11) NOT NULL,
+  `wt_pd_form` varchar(80) NOT NULL,
+  `tool_name` varchar(80) NOT NULL,
+  `asset_id` varchar(50) NOT NULL,
+  `part_id` text NOT NULL,
+  `part_name` text NOT NULL,
+  `date_working_1` date NOT NULL,
+  `from_working_1` date NOT NULL,
+  `to_working_1` date NOT NULL,
+  `CNC_Milling_1` varchar(50) NOT NULL,
+  `E_D_M_1` varchar(50) NOT NULL,
+  `Drilling_1` varchar(50) NOT NULL,
+  `Grinding_1` varchar(50) NOT NULL,
+  `Lathe_1` varchar(50) NOT NULL,
+  `Milling_1` varchar(50) NOT NULL,
+  `Other_1` varchar(50) NOT NULL,
+  `W_T_1_1` varchar(20) NOT NULL,
+  `O_T_1_1` varchar(20) NOT NULL,
+  `W_T_2_1` varchar(20) NOT NULL,
+  `O_T_2_1` varchar(20) NOT NULL,
+  `W_T_3_1` varchar(20) NOT NULL,
+  `O_T_3_1` varchar(20) NOT NULL,
+  `W_T_4_1` varchar(20) NOT NULL,
+  `O_T_4_1` varchar(20) NOT NULL,
+  `W_T_5_1` varchar(20) NOT NULL,
+  `O_T_5_1` varchar(20) NOT NULL,
+  `W_T_6_1` varchar(20) NOT NULL,
+  `O_T_6_1` varchar(20) NOT NULL,
+  `W_T_7_1` varchar(20) NOT NULL,
+  `O_T_7_1` varchar(20) NOT NULL,
+  `date_working_2` varchar(20) NOT NULL,
+  `from_working_2` varchar(20) NOT NULL,
+  `to_working_2` varchar(20) NOT NULL,
+  `CNC_Milling_2` varchar(20) NOT NULL,
+  `E_D_M_2` varchar(20) NOT NULL,
+  `Drilling_2` varchar(20) NOT NULL,
+  `Grinding_2` varchar(20) NOT NULL,
+  `Lathe_2` varchar(20) NOT NULL,
+  `Milling_2` varchar(20) NOT NULL,
+  `Other_2` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -173,6 +234,12 @@ ALTER TABLE `renew_detail`
 --
 ALTER TABLE `temp_part`
   ADD PRIMARY KEY (`temp_part`);
+
+--
+-- Indexes for table `working_record`
+--
+ALTER TABLE `working_record`
+  ADD PRIMARY KEY (`id_w_record`);
 
 --
 -- AUTO_INCREMENT for dumped tables
