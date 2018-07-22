@@ -5,6 +5,7 @@
       <div class="row mb-2">
         <div class="col-sm-12">
           <a href="?p=add_job" class="btn btn-primary pull-right">Add +</a>
+          <a href="?p=record_working" class="btn btn-default pull-right">Create Working Record +</a>
           <h1 class="m-0 text-dark">Job Order</h1>
         </div>
         <!-- /.col -->

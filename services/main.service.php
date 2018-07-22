@@ -87,6 +87,7 @@ if(isset($_POST['action']) && $_POST['action'] == 2){
 		$wt_replace = $row['wt_replace'];
 		$wt_other = $row['wt_other'];
 		$wt_sample = $row['wt_sample'];
+		$no_id = $row['no_id'];
 		$wt_modify= $row['wt_modify'];
 		$wt_sample_form = $row['wt_sample_form'];
 		$wt_repair = $row['wt_repair'];
@@ -97,7 +98,7 @@ if(isset($_POST['action']) && $_POST['action'] == 2){
 		$asset_id= $row['asset_id'];
 		$part_id = $row['part_id'];
 		$part_name =$row['part_name'];
-		$td .= "<td><button tool_type='$tool_type' tool_type_other='$tool_type_other' wt_new='$wt_new' wt_replace='$wt_replace' wt_other='$wt_other' wt_modify='$wt_modify' wt_sample='$wt_sample' wt_sample_form='$wt_sample_form' wt_repair='$wt_repair' wt_pd='$wt_pd' other_wt_form='$other_wt_form' wt_pd_form='$wt_pd_form' tool_name='$tool_name' part_name='$part_name' asset_id='$asset_id' part_id='$part_id' id='selectjob' class='btn btn-info'> <i class='fa fa-check' aria-hidden='true'></i></button></td>";
+		$td .= "<td><button tool_type='$tool_type' tool_type_other='$tool_type_other' wt_new='$wt_new' wt_replace='$wt_replace' wt_other='$wt_other' wt_modify='$wt_modify' wt_sample='$wt_sample' wt_sample_form='$wt_sample_form' wt_repair='$wt_repair' wt_pd='$wt_pd' other_wt_form='$other_wt_form' wt_pd_form='$wt_pd_form' tool_name='$tool_name' part_name='$part_name' asset_id='$asset_id' part_id='$part_id' no_id='$no_id' id='selectjob' class='btn btn-info'> <i class='fa fa-check' aria-hidden='true'></i></button></td>";
 		$td .= "</tr>";
 	}
 	$table .= $td;

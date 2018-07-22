@@ -153,7 +153,13 @@ if(isset($_GET['session_id'])){
           <div class="card card-primary card-outline">
             <div class="card-header">
               <h5 class="m-0 pull-left">WORKING TIME RECORD</h5>
-              <span class="pull-right">REF : 001</span>
+              <?php 
+              if(isset($row['no_id'])){
+                echo '<span class="pull-right" id="have_ref">REF : '.$row['no_id'].'</span>';
+              }
+              
+              ?>
+              <span class="pull-right" id="ref_doc"></span>
             </div>
             <div class="card-body">
               <div class="row">
@@ -166,25 +172,26 @@ if(isset($_GET['session_id'])){
                     <tbody>
                       <tr>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==1 ? "Checked" : ""); ?> id="wt_1"
-                          <?php echo ($session_id==""? "" : "disabled")?>> โมลด์หล่ออลูมิเนียม (Gravity Die Cast Mould)</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==1 ? "Checked" : ""); ?> id="wt_1"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="1"> โมลด์หล่ออลูมิเนียม (Gravity Die Cast Mould)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==5 ? "Checked" : ""); ?> id="wt_5"
-                          <?php echo ($session_id==""? "" : "disabled")?>>โมลด์เหวี่ยงพลาสติก (Plastic Rotational Mould)</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==5 ? "Checked" : ""); ?> id="wt_5"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="5">โมลด์เหวี่ยงพลาสติก (Plastic Rotational Mould)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==4 ? "Checked" : ""); ?> id="wt_4"
-                          <?php echo ($session_id==""? "" : "disabled")?>>จิ๊กและฟิกเจอร์ (Jig & Fixture)</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==4 ? "Checked" : ""); ?> id="wt_4"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="4">จิ๊กและฟิกเจอร์ (Jig & Fixture)</td>
                       </tr>
                       <tr>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==3 ? "Checked" : ""); ?> id="wt_3"
-                          <?php echo ($session_id==""? "" : "disabled")?>>โมลด์ฉีดอลูมิเนียม (High Pressure Die Cast Mould)</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==3 ? "Checked" : ""); ?> id="wt_3"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="3">โมลด์ฉีดอลูมิเนียม (High Pressure Die Cast Mould)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==2 ? "Checked" : ""); ?> id="wt_2"
-                          <?php echo ($session_id==""? "" : "disabled")?>>แม่พิมพ์ปั๊มโลหะ (Punch & Die)</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==2 ? "Checked" : ""); ?> id="wt_2"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="2">แม่พิมพ์ปั๊มโลหะ (Punch & Die)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'tool_type']==6 ? "Checked" : ""); ?> id="wt_6"
-                          <?php echo ($session_id==""? "" : "disabled")?>>อื่นๆ (Other)_____________________</td>
+                          <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==6 ? "Checked" : ""); ?> id="wt_6"
+                          <?php echo ($session_id==""? "" : "disabled")?> value="6">อื่นๆ (Other) <input type="text" class="form-control" id="tool_type_other"></td>
+                          
                       </tr>
 
                     </tbody>
@@ -198,7 +205,7 @@ if(isset($_GET['session_id'])){
                       <tr>
                         <td>
                           <input type="checkbox" <?php echo ($row[ 'wt_new']=='Y' ? "Checked" : ""); ?> id="wt_new"
-                          <?php echo ($session_id=="" ? "" : "disabled")?>> ทำใหม่ (New)</td>
+                          <?php echo ($session_id=="" ? "" : "disabled")?> value="Y"> ทำใหม่ (New)</td>
                         <td>
                           <input type="checkbox" <?php echo ($row[ 'wt_replace']=='Y' ? "Checked" : ""); ?> id="wt_replace"
                           <?php echo ($session_id==""? "" : "disabled")?>> ทำใหม่เพื่อแทนของเดิม (Replace)</td>
@@ -206,10 +213,10 @@ if(isset($_GET['session_id'])){
                           <input type="checkbox"  <?php echo ($row[ 'wt_sample']=='Y' ? "Checked" : ""); ?> id="wt_sample"
                           <?php echo ($session_id==""? "" : "disabled")?>> ตัวอย่าง (Sample)
                           <?php echo ($row[
-                                                    'wt_sample']=='Y' ? $row['wt_sample_form'] : ""); ?> ชิ้น/(Pieces)</td>
+                                                    'wt_sample']=='Y' ? $row['wt_sample_form']." ชิ้น/(Pieces)" : ""); ?> <span id="sample_text"></span><input type="text" id="wt_sample_form" class="form-control btn-sm"></td>
                         <td rowspan="2">
                           <input type="checkbox" <?php echo ($row[ 'wt_other']=='Y' ? "Checked" : ""); ?> id="wt_other"
-                          <?php echo ($session_id==""? "" : "disabled")?>>อื่นๆ (Other)</td>
+                          <?php echo ($session_id==""? "" : "disabled")?>>อื่นๆ (Other) <input type="text" id="wt_other_form" class="form-control btn-sm"></td>
                       </tr>
                       <tr>
                         <td>
@@ -221,8 +228,8 @@ if(isset($_GET['session_id'])){
                         <td>
                           <input type="checkbox" <?php echo ($row[ 'wt_pd']=='Y' ? "Checked" : ""); ?> id="wt_production"
                           <?php echo ($session_id==""? "" : "disabled")?>> ผลิต (Production)
-                          <?php echo ($row[ 'wt_pd']=='Y'
-                                                ? $row['wt_pd_form'] : ""); ?> ชิ้น/(Pieces)</td>
+                          <?php echo ($row['wt_pd']=='Y'
+                                                ? $row['wt_pd_form']." ชิ้น/(Pieces)" : ""); ?><span id="pd_text"></span><input type="text" id="wt_pd_form" class="form-control btn-sm"></td>
                       </tr>
 
                     </tbody>
@@ -454,7 +461,9 @@ if(isset($_GET['session_id'])){
                 </div>
               </div>
             </div>
-
+            <div class="card-footer clearfix">
+                <button type="button" class="btn btn-success float-right" id="btn_record"><i class="fa fa-plus"></i> Save</button>
+              </div>
           </div>
 
         </div>
