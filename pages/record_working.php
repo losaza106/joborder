@@ -190,7 +190,7 @@ if(isset($_GET['session_id'])){
                           <?php echo ($session_id==""? "" : "disabled")?> value="2">แม่พิมพ์ปั๊มโลหะ (Punch & Die)</td>
                         <td>
                           <input name="tool_type" type="checkbox" <?php echo ($row[ 'tool_type']==6 ? "Checked" : ""); ?> id="wt_6"
-                          <?php echo ($session_id==""? "" : "disabled")?> value="6">อื่นๆ (Other) <input type="text" class="form-control" id="tool_type_other"></td>
+                          <?php echo ($session_id==""? "" : "disabled")?> value="6">อื่นๆ (Other) <input type="text" class="form-control" id="tool_type_other" value="<?php echo (isset($_GET['session_id']) && isset($row['tool_type_other']) ? $row['tool_type_other'] : "") ?>"></td>
                           
                       </tr>
 
@@ -208,28 +208,28 @@ if(isset($_GET['session_id'])){
                           <?php echo ($session_id=="" ? "" : "disabled")?> value="Y"> ทำใหม่ (New)</td>
                         <td>
                           <input type="checkbox" <?php echo ($row[ 'wt_replace']=='Y' ? "Checked" : ""); ?> id="wt_replace"
-                          <?php echo ($session_id==""? "" : "disabled")?>> ทำใหม่เพื่อแทนของเดิม (Replace)</td>
+                          <?php echo ($session_id==""? "" : "disabled")?> value="Y"> ทำใหม่เพื่อแทนของเดิม (Replace)</td>
                         <td>
                           <input type="checkbox"  <?php echo ($row[ 'wt_sample']=='Y' ? "Checked" : ""); ?> id="wt_sample"
-                          <?php echo ($session_id==""? "" : "disabled")?>> ตัวอย่าง (Sample)
+                          <?php echo ($session_id==""? "" : "disabled")?> value="Y"> ตัวอย่าง (Sample)
                           <?php echo ($row[
-                                                    'wt_sample']=='Y' ? $row['wt_sample_form']." ชิ้น/(Pieces)" : ""); ?> <span id="sample_text"></span><input type="text" id="wt_sample_form" class="form-control btn-sm"></td>
+                                                    'wt_sample']=='Y' ? $row['wt_sample_form']." ชิ้น/(Pieces)" : ""); ?> <span id="sample_text"></span><input type="text" id="wt_sample_form" class="form-control btn-sm" value="<?php echo (isset($_GET['session_id']) && $row[ 'wt_sample']=='Y' ? $row['wt_sample_form'] : "")?>"></td>
                         <td rowspan="2">
                           <input type="checkbox" <?php echo ($row[ 'wt_other']=='Y' ? "Checked" : ""); ?> id="wt_other"
-                          <?php echo ($session_id==""? "" : "disabled")?>>อื่นๆ (Other) <input type="text" id="wt_other_form" class="form-control btn-sm"></td>
+                          <?php echo ($session_id==""? "" : "disabled")?> value="Y">อื่นๆ (Other) <input type="text" id="wt_other_form" class="form-control btn-sm" value="<?php echo (isset($_GET['session_id']) && $row['wt_other']=='Y' ? $row['other_wt_form'] : "")?>"></td>
                       </tr>
                       <tr>
                         <td>
                           <input type="checkbox" <?php echo ($row[ 'wt_modify']=='Y' ? "Checked" : ""); ?> id="wt_modify"
-                          <?php echo ($session_id==""? "" : "disabled")?>>ดัดแปลง (Modify)</td>
+                          <?php echo ($session_id==""? "" : "disabled")?> value="Y">ดัดแปลง (Modify)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'wt_repair']=='Y' ? "Checked" : ""); ?> id="wt_repair"
+                          <input value="Y" type="checkbox" <?php echo ($row['wt_repair']=='Y' ? "Checked" : ""); ?> id="wt_repair"
                           <?php echo ($session_id==""? "" : "disabled")?>>ซ่อม (Repair)</td>
                         <td>
-                          <input type="checkbox" <?php echo ($row[ 'wt_pd']=='Y' ? "Checked" : ""); ?> id="wt_production"
+                          <input value="Y" type="checkbox" <?php echo ($row[ 'wt_pd']=='Y' ? "Checked" : ""); ?> id="wt_production"
                           <?php echo ($session_id==""? "" : "disabled")?>> ผลิต (Production)
                           <?php echo ($row['wt_pd']=='Y'
-                                                ? $row['wt_pd_form']." ชิ้น/(Pieces)" : ""); ?><span id="pd_text"></span><input type="text" id="wt_pd_form" class="form-control btn-sm"></td>
+                                                ? $row['wt_pd_form']." ชิ้น/(Pieces)" : ""); ?><span id="pd_text"></span><input type="text" id="wt_pd_form" class="form-control btn-sm" value="<?php echo (isset($_GET['session_id']) && $row['wt_pd']=='Y' ? $row['wt_pd_form'] : "")?>"></td>
                       </tr>
 
                     </tbody>
@@ -246,7 +246,7 @@ if(isset($_GET['session_id'])){
                   <div class="form-group">
                     <?php 
                     if($session_id == ""){
-                      echo '<button class="btn btn-primary pull-right btn-sm" data-toggle="modal" data-target="#exampleModal1">
+                      echo '<button id="btn_search_part" class="btn btn-primary pull-right btn-sm" data-toggle="modal" data-target="#exampleModal1">
                       <i class="fa fa-search" aria-hidden="true"></i> Search</button>
                       <button type="button" class="btn btn-success btn-sm pull-right" id="add_partid">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> ADD</button>';

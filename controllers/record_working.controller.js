@@ -197,8 +197,8 @@ $(document).ready(function () {
         let wt_replace = $(this).attr('wt_replace');
         let wt_other = $(this).attr('wt_other');
         let wt_pd = $(this).attr('wt_pd');
-        let wt_sample_form = $(this).attr('wt_sample_form')+" ชิ้น/(Pieces)";
-        let wt_pd_form = $(this).attr('wt_pd_form')+" ชิ้น/(Pieces)";
+        let wt_sample_form = $(this).attr('wt_sample_form');
+        let wt_pd_form = $(this).attr('wt_pd_form');
         let other_wt_form = $(this).attr('other_wt_form');
         let wt_modify = $(this).attr('wt_modify');
         let wt_sample = $(this).attr('wt_sample');
@@ -225,41 +225,54 @@ $(document).ready(function () {
 
         if (wt_new == "Y") {
             $('#wt_new').attr('checked', true);
-            $('#wt_new').attr('disabled', true);
+            data.wt_new = wt_new;
         }
+        $('#wt_new').attr('disabled', true);
 
         if (wt_replace == "Y") {
+            data.wt_replace = wt_replace
             $('#wt_replace').attr('checked', true);
-            $('#wt_replace').attr('disabled', true);
         }
+        $('#wt_replace').attr('disabled', true);
 
         if (wt_other == "Y") {
+            data.wt_other = wt_other;
+            data.wt_other_form = other_wt_form; 
+            $('#wt_other_form').val(other_wt_form);
             $('#wt_other').attr('checked', true);
-            $('#wt_other').attr('disabled', true);
         }
+        $('#wt_other').attr('disabled', true);
 
         if (wt_pd == "Y") {
-            $('#wt_pd').attr('disabled', true);
-            $('#wt_pd').attr('checked', true);
+            data.wt_production = wt_pd;
+            data.wt_pd_form = wt_pd_form;
+            $('#wt_pd_form').val(wt_pd_form);
+            $('#wt_production').attr('checked', true);
         }
+        $('#wt_production').attr('disabled', true);
 
         if (wt_modify == "Y") {
+            data.wt_modify = wt_modify;
             $('#wt_modify').attr('checked', true);
-            $('#wt_modify').attr('disalbed', true);
         }
+        $('#wt_modify').attr('disabled', true);
 
         if (wt_sample == "Y") {
+            data.wt_sample = wt_sample;
+            data.wt_sample_form = wt_sample_form;
+            $('#wt_sample_form').val(wt_sample_form);
             $('#wt_sample').attr('checked', true);
-            $('#wt_sample').attr('disabled', true);
         }
+        $('#wt_sample').attr('disabled', true);
 
         if (wt_repair == "Y") {
+            data.wt_repair = wt_repair;
             $('#wt_repair').attr('checked', true);
-            $('#wt_repair').attr('disabled', true);
         }
+        $('#wt_repair').attr('disabled', true);
 
-        $('#sample_text').text(wt_sample_form);
-        $('#pd_text').text(wt_pd_form);
+        $('#sample_text').text(wt_sample_form+" ชิ้น/(Pieces)");
+        $('#pd_text').text(wt_pd_form+" ชิ้น/(Pieces)");
 
         $('#tool_name').val(tool_name);
         $('#tool_name').attr('disabled',true);
@@ -279,6 +292,7 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "1";
         } else if (tool_type == 2) {
             $('#wt_1').attr('checked', false);
             $('#wt_2').attr('checked', true);
@@ -292,6 +306,7 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "2";
         } else if (tool_type == 3) {
             $('#wt_1').attr('checked', false);
             $('#wt_2').attr('checked', false);
@@ -305,6 +320,7 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "3";
         } else if (tool_type == 4) {
             $('#wt_1').attr('checked', false);
             $('#wt_2').attr('checked', false);
@@ -318,6 +334,7 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "4";
         } else if (tool_type == 5) {
             $('#wt_1').attr('checked', false);
             $('#wt_2').attr('checked', false);
@@ -331,6 +348,7 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "5";
         } else if (tool_type == 6) {
             $('#wt_1').attr('checked', false);
             $('#wt_2').attr('checked', false);
@@ -344,11 +362,55 @@ $(document).ready(function () {
             $('#wt_4').attr('disabled', true);
             $('#wt_5').attr('disabled', true);
             $('#wt_6').attr('disabled', true);
+            data.tool_tpye = "6";
+            $('#tool_type_other').val(tool_type_other);
+            data.tool_type_other = tool_type_other;
         }
         $('#ref_doc').text(no_id);
         $('#have_ref').text("");
+        $('#add_partid').hide();
+        $('#btn_search_part').hide();
         $('#exampleModal').modal("hide");
     });
+
+    $('input[name="tool_type"]').each(function(){
+        if($(this).is(':checked')){
+            if($(this).val() == 6){
+                data.tool_type_other = $('#tool_type_other_text').val();
+                data.tool_tpye = $(this).val();
+            }else{
+                data.tool_tpye = $(this).val();
+            }
+        }
+    });
+
+    if($('#wt_new').is(':checked')){
+        data.wt_new = $('#wt_new').val();
+    }
+    if($('#wt_replace').is(':checked')){
+        data.wt_replace = $('#wt_replace').val();
+    }
+    if($('#wt_modify').is(':checked')){
+        data.wt_modify = $('#wt_modify').val();
+    }
+    if($('#wt_repair').is(':checked')){
+        data.wt_repair = $('#wt_repair').val();
+    }
+
+    if($('#wt_sample').is(':checked')){
+        data.wt_sample = $('#wt_sample').val();
+        data.wt_sample_form = $('#wt_sample_form').val();
+    }
+
+    if($('#wt_production').is(':checked')){
+        data.wt_pd = $('#wt_production').val();
+        data.wt_pd_form = $('#wt_pd_form').val();
+    }
+
+    if($('#wt_other').is(':checked')){
+        data.wt_other = $('#wt_other').val();
+        data.wt_other_form = $('#wt_other_form').val();
+    }
 
     $('#btn_record').click(function(){
         if(data.tool_tpye == ""){
@@ -382,6 +444,8 @@ $(document).ready(function () {
                 }
             }
         }
+
+
         if(data.wt_production == "Y"){
             if($('#wt_pd_form').val() == ""){
                 swal({
