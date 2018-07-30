@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let data = [];
+    let data = {};
     data.tool_tpye = "";
     data.tool_type_other = "";
     data.wt_new = "";
@@ -16,7 +16,8 @@ $(document).ready(function () {
     data.part_id = "";
     data.asset_id = "";
     data.part_name = "";
-    if($('#part_id_get').text() == "No                    "){
+    data.no_id= "";
+    if($('#part_id_get').text() == "No"){
         $('#g_part_id').append('<input type="text" class="form-control" id="part_id" name="part_id[]" placeholder="หมายเลขชิ้นงาน" required value="">');
     }else{
         let part_id_get = $('#part_id_get').text().split(',');
@@ -26,7 +27,7 @@ $(document).ready(function () {
     }
     
 
-    if($('#part_name_get').text() == "No                    "){
+    if($('#part_name_get').text() == "No"){
         $('#g_partname').append('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน" required value="">');
     }else{
         let part_name_get = $('#part_name_get').text().split(',');
@@ -222,6 +223,8 @@ $(document).ready(function () {
         for (let i = 0; i < part_name_get.length; i++) {
             $('#g_partname').append('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน" required readonly value="' + part_name_get[i] + '">');
         }
+
+        $('#no_id').text($(this).attr('no_id'));
 
         if (wt_new == "Y") {
             $('#wt_new').attr('checked', true);
@@ -494,7 +497,21 @@ $(document).ready(function () {
             }
         });
         
-        console.log(data);
+        $('input[name^="field"]').each(function(){
+            data[$(this).attr('id')] = $(this).val();
+            /* console.log($(this).attr('id')+" : "+$(this).val()); */
+        });
+        data.no_id= $('#no_id').text();
+        let dataJson = JSON.stringify(data);
+        $.ajax({
+            url:'services/record_wk.service.php',
+            type:'post',
+            dataType:'json',
+            data:dataJson,
+            success:function(res){
+                console.log(res);
+            }
+        });
     });
 
     $('input[name="tool_type"]').on('change', function () {
@@ -590,5 +607,11 @@ $(document).ready(function () {
         }
     });
 
-    
+    /* $('#testwe').click(function(){
+        $('input[name^="field"]').each(function(){
+            data[$(this).attr('id')] = $(this).val();
+            console.log(data);
+            console.log($(this).attr('id')+" : "+$(this).val());
+        });
+    }); */
 });

@@ -96,6 +96,7 @@ if(isset($_GET['session_id'])){
       <div class="row mb-2">
         <div class="col-sm-12">
           <h1 class="m-0 text-dark pull-left">บันทึกเวลาการทำงาน (WORKING TIME RECORD)</h1>
+          <span style="display:none;" id="no_id"><?php echo (isset($row['no_id']) ? $row['no_id'] : "")?></span>
           <button class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">SEARCH JOBORDER.</button>
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -256,8 +257,7 @@ if(isset($_GET['session_id'])){
                     <p style="display:none;" id="part_name_get"><?php if($row['part_name'] == ""){echo"No";
                     }else{
                       echo $row['part_name'];
-                    }?>
-                    </p>
+                    }?></p>
 
                     <span id="g_partname"></span>
                   </div>
@@ -272,12 +272,7 @@ if(isset($_GET['session_id'])){
                 <div class="col-lg-6 mt-1">
                   <div class="form-group">
                     <label>หมายเลขชิ้นงาน (Part ID)</label>
-                    <p style="display:none;" id="part_id_get"><?php if($row['part_id'] == ""){
-                      echo "No";
-                    }else{
-                      echo $row['part_id'];
-                    }?>
-                    </p>
+                    <p style="display:none;" id="part_id_get"><?php echo ($row['part_id'] == "" ? "No" : $row['part_id']);?></p>
                     <span id="g_part_id"></span>
                   </div>
                 </div>
@@ -376,79 +371,79 @@ if(isset($_GET['session_id'])){
                             for($i = 1;$i<=12;$i++){
                                 echo '<tr>
                                 <td>
-                                  <input class="tall" type="date" id="Date_'.$i.'" style="font-size:8px;">
+                                  <input class="tall" type="date" id="Date_'.$i.'" style="font-size:8px;" name="field1">
                                 </td>
                                 <td>
-                                  <input class="tall" type="date" id="From_'.$i.'" style="font-size:8px;">
+                                  <input class="tall" type="date" id="From_'.$i.'" style="font-size:8px;" name="field2">
                                 </td>
                                 <td>
-                                  <input class="tall" type="date" id="To_'.$i.'" style="font-size:8px;">
+                                  <input class="tall" type="date" id="To_'.$i.'" style="font-size:8px;" name="field3">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="CNC_Milling_'.$i.'">
+                                  <input class="tall" type="text" id="CNC_Milling_'.$i.'" name="field4">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="EDM_'.$i.'">
+                                  <input class="tall" type="text" id="EDM_'.$i.'" name="field5">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Drilling_'.$i.'">
+                                  <input class="tall" type="text" id="Drilling_'.$i.'" name="field6">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Grinding_'.$i.'">
+                                  <input class="tall" type="text" id="Grinding_'.$i.'" name="field7">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Lathe_'.$i.'">
+                                  <input class="tall" type="text" id="Lathe_'.$i.'" name="field8">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Milling_'.$i.'">
+                                  <input class="tall" type="text" id="Milling_'.$i.'" name="field9">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Other_'.$i.'">
+                                  <input class="tall" type="text" id="Other_'.$i.'" name="field10">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_1_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_1_'.$i.'" name="field11">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_1_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_1_'.$i.'" name="field12">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_2_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_2_'.$i.'" name="field13">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_2_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_2_'.$i.'" name="field14">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_3_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_3_'.$i.'" name="field15">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_3_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_3_'.$i.'" name="field16">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_4_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_4_'.$i.'" name="field17">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_4_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_4_'.$i.'" name="field18">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_5_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_5_'.$i.'" name="field19">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_5_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_5_'.$i.'" name="field20">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_6_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_6_'.$i.'" name="field21">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_6_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_6_'.$i.'" name="field22">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="W_T_7_'.$i.'">
+                                  <input class="tall" type="text" id="W_T_7_'.$i.'" name="field23">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="O_T_7_'.$i.'">
+                                  <input class="tall" type="text" id="O_T_7_'.$i.'" name="field24">
                                 </td>
                                 <td>
-                                  <input class="tall" type="text" id="Remark_'.$i.'">
+                                  <input class="tall" type="text" id="Remark_'.$i.'" name="field25">
                                 </td>
                               
                               </tr>';
