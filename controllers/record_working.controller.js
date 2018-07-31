@@ -509,7 +509,26 @@ $(document).ready(function () {
             dataType:'json',
             data:dataJson,
             success:function(res){
-                console.log(res);
+                if(res == 1){
+                    swal({
+                        title: 'Success.',
+                        text: "Save Working Record.",
+                        type: 'success',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location = 'index.php';
+                        }
+                    });
+                }else{
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'มีบางอย่างผิดพลาด'
+                    })
+                }
             }
         });
     });
