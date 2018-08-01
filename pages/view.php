@@ -257,18 +257,37 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Username ที่สร้าง</th>
+      <th scope="col">ชื่อผู้สร้าง</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
+    <?php 
+    $no_id = $row['no_id'];
+    $sql22 = "SELECT working_record.create_by,working_record.id_w_record FROM working_record WHERE no_id='$no_id'";
+    $result22 = $conn->query($sql22);
+    if($result22){
+        $i = 1;
+        while($row22 = $result22->fetch_assoc()){
+            $id_create =  $row22['create_by'];
+            $sql23 = "SELECT username,fullname FROM member WHERE Id_member=$id_create";
+            $result23 = $conn->query($sql23);
+            $row23 = $result23->fetch_assoc();
+            $username_create = $row23['username'];
+            $fullname_create = $row23['fullname'];
+            $id_w_record = $row22['id_w_record'];
+            echo "<tr>
+            <th scope='row'>$i</th>
+            <td>$username_create</td>
+            <td>$fullname_create</td>
+            <td><a href='?p=view_wr&id_w_record=$id_w_record' class='btn btn-info btn-sm'>View</a><a href='#' class='btn btn-danger btn-sm'>PDF</a></td>
+          </tr>";
+          $i++;
+        }
+    }
+    ?>
+    
   </tbody>
 </table>
       </div>
