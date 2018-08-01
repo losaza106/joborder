@@ -14,7 +14,7 @@
     $row87 = $result2->fetch_assoc();
     $MGR1 = ($row87['MGR1'] == "" ? "" : $row87['MGR1']);
     $MGR2 = ($row87['MGR2'] == "" ? "" : $row87['MGR2']);
-    if(isset($_SESSION['login']) && isset($_GET['login']) && $_GET['login'] == 1){
+    if(isset($_GET['login']) && $_GET['login'] == 1){
         if($row['status'] == 0){
             if($MGR1 == $now_user_username || $MGR2 == $now_user_username){
                 unset($_SESSION['login']);
@@ -23,7 +23,7 @@
                 exit();
             }
         }else if($row['status'] == 1){
-            if($row['received'] == $user_id && isset($_GET['login']) && $_GET['login'] == 1 && isset($_SESSION['login'])){
+            if($row['received'] == $user_id && isset($_GET['login']) && $_GET['login'] == 1){
                 unset($_SESSION['login']);
             }else{
                 echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
@@ -35,7 +35,7 @@
             $row87 = $result2->fetch_assoc();
             $MGR1 = ($row87['MGR1'] == "" ? "" : $row87['MGR1']);
             $MGR2 = ($row87['MGR2'] == "" ? "" : $row87['MGR2']);
-            if(($MGR1 == $now_user_username || $MGR2 == $now_user_username) && isset($_GET['login']) && $_GET['login'] == 1 && isset($_SESSION['login'])){
+            if(($MGR1 == $now_user_username || $MGR2 == $now_user_username) && isset($_GET['login']) && $_GET['login'] == 1){
                 unset($_SESSION['login']);
             }else{
                 echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';

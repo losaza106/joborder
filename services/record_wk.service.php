@@ -1,6 +1,7 @@
 <?php 
 $data = json_decode(file_get_contents('php://input'), true);
 /* var_dump($data); */
+require_once('../config/dbh.inc.php');
 
 // Create Variable
 $tool_type= $data["tool_tpye"];
@@ -21,6 +22,26 @@ $asset_id = $data["asset_id"];
 $part_name = $data["part_name"];
 $no_id = $data["no_id"];
 
+if($no_id == ""){
+	$sql = "SELECT no_id FROM working_record WHERE no_id LIKE 'WORK%'";
+	$result = $conn->query($sql);
+	if($num_row = $result->num_rows > 0){
+		$row = $result->fetch_assoc();
+		$no_id_get = $row['no_id'];
+		$id_int= substr($no_id_get , -4)+1;
+		$id_string =(string)$id_int;
+if(strlen($id_string) == 1){
+	$no_id = "WORK".date("ym")."000".$id_int;
+}else if(strlen($id_string) == 2){
+	$no_id = "WORK".date("ym")."00".$id_int;
+}else if(strlen($id_string) == 3){
+	$no_id = "WORK".date("ym")."0".$id_int;
+}else{
+	$no_id = "WORK".date("ym").$id_int;
+}
+}else{
+	$no_id = "WORK".date("ym")."0000";
+}
 //Record Working #1
 $Date_1 = $data["Date_1"];
 $From_1 = $data["From_1"];
@@ -359,8 +380,8 @@ $Remark_12=  $data["Remark_12"];
 
 // End Create Variable
 
-if($data["tool_tpye"] != ""){
-    require_once('../config/dbh.inc.php');
+// if($data["tool_tpye"] != ""){
+    
     $sql = "INSERT INTO working_record (no_id,tool_type,tool_type_other,wt_new,wt_replace,wt_sample,wt_sample_form,wt_other,wt_other_form,wt_modify,wt_repair,wt_pd,wt_pd_form,tool_name,asset_id,part_id,part_name,date_working_1,from_working_1,to_working_1,CNC_Milling_1,E_D_M_1,Drilling_1,Grinding_1,Lathe_1,Milling_1,Other_1,W_T_1_1,O_T_1_1,W_T_2_1,O_T_2_1,W_T_3_1,O_T_3_1,W_T_4_1,O_T_4_1,W_T_5_1,O_T_5_1,W_T_6_1,O_T_6_1,W_T_7_1,O_T_7_1,Remark_1,date_working_2,from_working_2,to_working_2,CNC_Milling_2,E_D_M_2,Drilling_2,Grinding_2,Lathe_2,Milling_2,Other_2,W_T_1_2,O_T_1_2,W_T_2_2,O_T_2_2,W_T_3_2,O_T_3_2,W_T_4_2,O_T_4_2,W_T_5_2,O_T_5_2,W_T_6_2,O_T_6_2,W_T_7_2,O_T_7_2,Remark_2,date_working_3,from_working_3,to_working_3,CNC_Milling_3,E_D_M_3,Drilling_3,Grinding_3,Lathe_3,Milling_3,Other_3,W_T_1_3,O_T_1_3,W_T_2_3,O_T_2_3,W_T_3_3,O_T_3_3,W_T_4_3,O_T_4_3,W_T_5_3,O_T_5_3,W_T_6_3,O_T_6_3,W_T_7_3,O_T_7_3,Remark_3,date_working_4,from_working_4,to_working_4,CNC_Milling_4,E_D_M_4,Drilling_4,Grinding_4,Lathe_4,Milling_4,Other_4,W_T_1_4,O_T_1_4,W_T_2_4,O_T_2_4,W_T_3_4,O_T_3_4,W_T_4_4,O_T_4_4,W_T_5_4,O_T_5_4,W_T_6_4,O_T_6_4,W_T_7_4,O_T_7_4,Remark_4,date_working_5,from_working_5,to_working_5,CNC_Milling_5,E_D_M_5,Drilling_5,Grinding_5,Lathe_5,Milling_5,Other_5,W_T_1_5,O_T_1_5,W_T_2_5,O_T_2_5,W_T_3_5,O_T_3_5,W_T_4_5,O_T_4_5,W_T_5_5,O_T_5_5,W_T_6_5,O_T_6_5,W_T_7_5,O_T_7_5,Remark_5,date_working_6,from_working_6,to_working_6,CNC_Milling_6,E_D_M_6,Drilling_6,Grinding_6,Lathe_6,Milling_6,Other_6,W_T_1_6,O_T_1_6,W_T_2_6,O_T_2_6,W_T_3_6,O_T_3_6,W_T_4_6,O_T_4_6,W_T_5_6,O_T_5_6,W_T_6_6,O_T_6_6,W_T_7_6,O_T_7_6,Remark_6,date_working_7,from_working_7,to_working_7,CNC_Milling_7,E_D_M_7,Drilling_7,Grinding_7,Lathe_7,Milling_7,Other_7,W_T_1_7,O_T_1_7,W_T_2_7,O_T_2_7,W_T_3_7,O_T_3_7,W_T_4_7,O_T_4_7,W_T_5_7,O_T_5_7,W_T_6_7,O_T_6_7,W_T_7_7,O_T_7_7,Remark_7,date_working_8,from_working_8,to_working_8,CNC_Milling_8,E_D_M_8,Drilling_8,Grinding_8,Lathe_8,Milling_8,Other_8,W_T_1_8,O_T_1_8,W_T_2_8,O_T_2_8,W_T_3_8,O_T_3_8,W_T_4_8,O_T_4_8,W_T_5_8,O_T_5_8,W_T_6_8,O_T_6_8,W_T_7_8,O_T_7_8,Remark_8,date_working_9,from_working_9,to_working_9,CNC_Milling_9,E_D_M_9,Drilling_9,Grinding_9,Lathe_9,Milling_9,Other_9,W_T_1_9,O_T_1_9,W_T_2_9,O_T_2_9,W_T_3_9,O_T_3_9,W_T_4_9,O_T_4_9,W_T_5_9,O_T_5_9,W_T_6_9,O_T_6_9,W_T_7_9,O_T_7_9,Remark_9,date_working_10,from_working_10,to_working_10,CNC_Milling_10,E_D_M_10,Drilling_10,Grinding_10,Lathe_10,Milling_10,Other_10,W_T_1_10,O_T_1_10,W_T_2_10,O_T_2_10,W_T_3_10,O_T_3_10,W_T_4_10,O_T_4_10,W_T_5_10,O_T_5_10,W_T_6_10,O_T_6_10,W_T_7_10,O_T_7_10,Remark_10,date_working_11,from_working_11,to_working_11,CNC_Milling_11,E_D_M_11,Drilling_11,Grinding_11,Lathe_11,Milling_11,Other_11,W_T_1_11,O_T_1_11,W_T_2_11,O_T_2_11,W_T_3_11,O_T_3_11,W_T_4_11,O_T_4_11,W_T_5_11,O_T_5_11,W_T_6_11,O_T_6_11,W_T_7_11,O_T_7_11,Remark_11,date_working_12,from_working_12,to_working_12,CNC_Milling_12,E_D_M_12,Drilling_12,Grinding_12,Lathe_12,Milling_12,Other_12,W_T_1_12,O_T_1_12,W_T_2_12,O_T_2_12,W_T_3_12,O_T_3_12,W_T_4_12,O_T_4_12,W_T_5_12,O_T_5_12,W_T_6_12,O_T_6_12,W_T_7_12,O_T_7_12,Remark_12) VALUES ('$no_id',$tool_type,'$tool_type_other','$wt_new','$wt_replace','$wt_sample','$wt_sample_form','$wt_other','$wt_other_form','$wt_modify','$wt_repair','$wt_production','$wt_pd_form','$tool_name','$asset_id','$part_id','$part_name','$Date_1','$From_1','$To_1','$CNC_Milling_1','$EDM_1','$Drilling_1','$Grinding_1','$Lathe_1','$Milling_1','$Other_1','$W_T_1_1','$O_T_1_1','$W_T_2_1','$O_T_2_1','$W_T_3_1','$O_T_3_1','$W_T_4_1','$O_T_4_1','$W_T_5_1','$O_T_5_1','$W_T_6_1','$W_T_6_1','$W_T_7_1','$O_T_7_1','$Remark_1','$Date_2','$From_2','$To_2','$CNC_Milling_2','$EDM_2','$Drilling_2','$Grinding_2','$Lathe_2','$Milling_2','$Other_2','$W_T_1_2','$O_T_1_2','$W_T_2_2','$O_T_2_2','$W_T_3_2','$O_T_3_2','$W_T_4_2','$O_T_4_2','$W_T_5_2','$O_T_5_2','$W_T_6_2','$W_T_6_2','$W_T_7_2','$O_T_7_2','$Remark_2','$Date_3','$From_3','$To_3','$CNC_Milling_3','$EDM_3','$Drilling_3','$Grinding_3','$Lathe_3','$Milling_3','$Other_3','$W_T_1_3','$O_T_1_3','$W_T_2_3','$O_T_2_3','$W_T_3_3','$O_T_3_3','$W_T_4_3','$O_T_4_3','$W_T_5_3','$O_T_5_3','$W_T_6_3','$W_T_6_3','$W_T_7_3','$O_T_7_3','$Remark_3','$Date_4','$From_4','$To_4','$CNC_Milling_4','$EDM_4','$Drilling_4','$Grinding_4','$Lathe_4','$Milling_4','$Other_4','$W_T_1_4','$O_T_1_4','$W_T_2_4','$O_T_2_4','$W_T_3_4','$O_T_3_4','$W_T_4_4','$O_T_4_4','$W_T_5_4','$O_T_5_4','$W_T_6_4','$W_T_6_4','$W_T_7_4','$O_T_7_4','$Remark_4','$Date_5','$From_5','$To_5','$CNC_Milling_5','$EDM_5','$Drilling_5','$Grinding_5','$Lathe_5','$Milling_5','$Other_5','$W_T_1_5','$O_T_1_5','$W_T_2_5','$O_T_2_5','$W_T_3_5','$O_T_3_5','$W_T_4_5','$O_T_4_5','$W_T_5_5','$O_T_5_5','$W_T_6_5','$W_T_6_5','$W_T_7_5','$O_T_7_5','$Remark_5','$Date_6','$From_6','$To_6','$CNC_Milling_6','$EDM_6','$Drilling_6','$Grinding_6','$Lathe_6','$Milling_6','$Other_6','$W_T_1_6','$O_T_1_6','$W_T_2_6','$O_T_2_6','$W_T_3_6','$O_T_3_6','$W_T_4_6','$O_T_4_6','$W_T_5_6','$O_T_5_6','$W_T_6_6','$W_T_6_6','$W_T_7_6','$O_T_7_6','$Remark_6','$Date_7','$From_7','$To_7','$CNC_Milling_7','$EDM_7','$Drilling_7','$Grinding_7','$Lathe_7','$Milling_7','$Other_7','$W_T_1_7','$O_T_1_7','$W_T_2_7','$O_T_2_7','$W_T_3_7','$O_T_3_7','$W_T_4_7','$O_T_4_7','$W_T_5_7','$O_T_5_7','$W_T_6_7','$W_T_6_7','$W_T_7_7','$O_T_7_7','$Remark_7','$Date_8','$From_8','$To_8','$CNC_Milling_8','$EDM_8','$Drilling_8','$Grinding_8','$Lathe_8','$Milling_8','$Other_8','$W_T_1_8','$O_T_1_8','$W_T_2_8','$O_T_2_8','$W_T_3_8','$O_T_3_8','$W_T_4_8','$O_T_4_8','$W_T_5_8','$O_T_5_8','$W_T_6_8','$W_T_6_8','$W_T_7_8','$O_T_7_8','$Remark_8','$Date_9','$From_9','$To_9','$CNC_Milling_9','$EDM_9','$Drilling_9','$Grinding_9','$Lathe_9','$Milling_9','$Other_9','$W_T_1_9','$O_T_1_9','$W_T_2_9','$O_T_2_9','$W_T_3_9','$O_T_3_9','$W_T_4_9','$O_T_4_9','$W_T_5_9','$O_T_5_9','$W_T_6_9','$W_T_6_9','$W_T_7_9','$O_T_7_9','$Remark_9','$Date_10','$From_10','$To_10','$CNC_Milling_10','$EDM_10','$Drilling_10','$Grinding_10','$Lathe_10','$Milling_10','$Other_10','$W_T_1_10','$O_T_1_10','$W_T_2_10','$O_T_2_10','$W_T_3_10','$O_T_3_10','$W_T_4_10','$O_T_4_10','$W_T_5_10','$O_T_5_10','$W_T_6_10','$W_T_6_10','$W_T_7_10','$O_T_7_10','$Remark_10','$Date_11','$From_11','$To_11','$CNC_Milling_11','$EDM_11','$Drilling_11','$Grinding_11','$Lathe_11','$Milling_11','$Other_11','$W_T_1_11','$O_T_1_11','$W_T_2_11','$O_T_2_11','$W_T_3_11','$O_T_3_11','$W_T_4_11','$O_T_4_11','$W_T_5_11','$O_T_5_11','$W_T_6_11','$W_T_6_11','$W_T_7_11','$O_T_7_11','$Remark_11','$Date_12','$From_12','$To_12','$CNC_Milling_12','$EDM_12','$Drilling_12','$Grinding_12','$Lathe_12','$Milling_12','$Other_12','$W_T_1_12','$O_T_1_12','$W_T_2_12','$O_T_2_12','$W_T_3_12','$O_T_3_12','$W_T_4_12','$O_T_4_12','$W_T_5_12','$O_T_5_12','$W_T_6_12','$W_T_6_12','$W_T_7_12','$O_T_7_12','$Remark_12')";
     $result = $conn->query($sql);
     if($result){

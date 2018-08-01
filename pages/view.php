@@ -70,13 +70,13 @@
                             <?php 
                            if($row['status'] == 0){
                                if($MGR1===$_SESSION['username'] || $MGR2===$_SESSION['username']){
-                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Manager Approved (ORDER)</a>";
+                                echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-primary'>Manager Approved (ORDER)</a>";
                                }else{
                                 echo 'รอ Manager ของผู้ส่ง Approved';
                                }
                         }else if($row['status'] == 1){
                             if($row['received'] == $_SESSION['id']){
-                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Received Approved</a>";
+                                echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-primary'>Received Approved</a>";
                             }else{
                                 echo 'รอ ผู้รับ Approved';
                             }
@@ -87,7 +87,7 @@
                             echo "Reject โดย ผู้ส่ง";
                            }else if($row['status'] == 4){
                             if($MGR1_received === $_SESSION['username'] || $MGR2_received === $_SESSION['username']){
-                                echo "<a href='?p=approved&session_id=$session_id' class='btn btn-primary'>Manager Approved (Received)</a>";
+                                echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-primary'>Manager Approved (Received)</a>";
                                }else{
                                 echo "รอ Manager ของผู้รับ Approved";
                                }
@@ -252,7 +252,7 @@
       </div>
       <div class="modal-body">
           <h5 class="pull-left">รายการบันทึกเวลาการทำงาน</h5>
-          <a href="?p=record_working&session_id=<?php echo $session_id;?>" class="btn btn-primary pull-right btn-sm">สร้างใบบันทึกเวลา</a>
+          <a href="?p=record_working&session_id=<?php echo $session_id;?>" class="btn btn-primary pull-right btn-sm"><i class="fa fa-plus-square" aria-hidden="true"></i> สร้างใบบันทึกเวลา</a>
       <table class="table">
   <thead>
     <tr>
@@ -294,9 +294,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <p style="display:none;" id="part_name_get">
-                                                <?php echo $row['part_name'];?>
-                                            </p>
+                                            <p style="display:none;" id="part_name_get"><?php echo $row['part_name'];?></p>
                                             <label for="part_name" id="add_part_name">ชื่อชิ้นส่วน (Part Name)</label>
                                             <span id="g_partname"></span>
 
@@ -305,9 +303,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <p style="display:none;" id="part_id_get">
-                                                <?php echo $row['part_id'];?>
-                                            </p>
+                                            <p style="display:none;" id="part_id_get"><?php echo $row['part_id'];?></p>
                                             <label for="part_id" id="add_part_id">หมายเลขชิ้นงาน (Part ID)</label>
                                             <span id="g_part_id"></span>
                                         </div>
