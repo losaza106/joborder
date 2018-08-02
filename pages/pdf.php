@@ -3,8 +3,60 @@ include "../config/dbh.inc.php";
 require_once __DIR__ . '/vendor/autoload.php';
 $session_id = $_GET['session_id'];
 $sql = "SELECT * FROM mainjob WHERE session_id='$session_id'";
+mysqli_set_charset($conn,"utf8");
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
+$request_by = $row['request_by'];
+$received = $row['received'];
+
+// Data ของคนส่ง
+$sql = "SELECT * FROM member WHERE Id_member=$request_by";
+$result2 = $conn->query($sql);
+$row2= $result2->fetch_assoc();
+
+// Data ของคนรับ
+$sql = "SELECT * FROM member WHERE Id_member=$received";
+$result3 = $conn->query($sql);
+$row3= $result3->fetch_assoc();
+
+if($row['status'] == 1 || $row['status'] == 4 || $row['status'] == 6){
+    $approved_order = $row['approved_order'];
+    $sql = "SELECT * FROM member WHERE Id_member=$approved_order";
+    $result4 = $conn->query($sql);
+    $row4= $result4->fetch_assoc();
+}
+
+if($row['status'] == 6){
+    $approved_received = $row['approved_received'];
+    $sql = "SELECT * FROM member WHERE Id_member=$approved_received";
+    $result5 = $conn->query($sql);
+    $row5= $result5->fetch_assoc();
+}
+
+$id_doc = $row['no_id'];
+    $sql = "SELECT due_date,remark,request_by,approved_by,id_renew FROM renew_detail WHERE no_id='$id_doc' ORDER BY id_renew DESC";
+    $result = $conn->query($sql);
+    $row_due_date = $result->fetch_assoc();
+    if($row_due_date['approved_by'] != 0){
+        $sql_approved_by = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row_due_date['approved_by'].'';
+        $result_approved_by = $conn->query($sql_approved_by);
+        $row_approved_by = $result_approved_by->fetch_assoc();
+        $row_due_date['approved_by_fullname'] = $row_approved_by['fullname'];
+        
+    }else{
+        $row_due_date['approved_by_fullname'] = "";
+    }
+
+    if($row_due_date['request_by'] != 0){
+        $sql_request_by = 'SELECT username,department,fullname FROM `member` WHERE id_member='.$row_due_date['request_by'].'';
+        $result_request_by = $conn->query($sql_request_by);
+        $row_request_by = $result_request_by->fetch_assoc();
+        $row_due_date['request_by_fullname'] = $row_request_by['fullname'];
+    }else{
+        $row_due_date['approved_by_fullname'] = "";
+    }
+    
+
 $mpdf = new \Mpdf\Mpdf();
 $mpdf->WriteHTML('
 <style>
@@ -14,6 +66,9 @@ $mpdf->WriteHTML('
 .12{
     font-size:12px;
 }
+*{
+    font-family: "Garuda";
+}
 </style>
 <div style="position: fixed;bottom: 840;right: -2;font-size:12px;float:left;width:50;">'.($row['no_id'] != "" ? substr($row['no_id'],0,29) : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 817;right: 350;font-size:12px;float:left;width:180;">'.($row['request_date'] != "" ? substr($row['request_date'],0,29) : null).'&nbsp;</div>
@@ -21,8 +76,8 @@ $mpdf->WriteHTML('
 
 <div style="position: fixed;bottom: 760;right: 345;font-size:12px;float:left;width:210;border:1px solid black;height:50px;">&nbsp;</div>
 <div style="position: fixed;bottom: 760;right: -5;font-size:12px;float:left;width:210;border:1px solid black;height:50px;">&nbsp;</div>
-<div style="position: fixed;bottom: 765;right: -5;font-size:8px;float:left;width:210;height:45px;">'.($row['part_id'] != "" ? substr(str_replace(",","<br>",$row['part_id']),0,100) : null).'&nbsp;</div>
-<div style="position: fixed;bottom: 765;right: 345;font-size:8px;float:left;width:210;height:45px;">'.($row['part_name'] != "" ? substr(str_replace(",","<br>",$row['part_name']),0,100) : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 765;right: -9;font-size:8px;float:left;width:210;height:45px;">'.($row['part_id'] != "" ? substr(str_replace(",","<br>",$row['part_id']),0,100) : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 765;right: 340;font-size:8px;float:left;width:210;height:45px;">'.($row['part_name'] != "" ? substr(str_replace(",","<br>",$row['part_name']),0,100) : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 740;right: 370;font-size:12px;float:left;width:200;">'.($row['tool_name'] != "" ? substr($row['tool_name'],0,29) : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 740;right: 26;font-size:12px;float:left;width:200;">'.($row['asset_id'] != "" ? substr($row['asset_id'],0,29) : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 636;right: 93;font-size:12px;float:left;width:200;">'.($row['tool_type'] == 6 ? $row['tool_type_other'] : null).'&nbsp;</div>
@@ -32,6 +87,18 @@ $mpdf->WriteHTML('
 <div style="position: fixed;bottom: 507;right: 230;font-size:12px;float:left;width:180;">'.($row['estimated'] != "" ? $row['estimated'] : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 410;right: 359;font-size:12px;float:left;width:300;height:60px;" >'.($row['detail_work'] != "" ? '<span class="thai">'.$row['detail_work'].'</span>' : null).'&nbsp;</div>
 <div style="position: fixed;bottom: 395;right: 15;font-size:12px;float:left;width:340;height:85px;">'.($row['detail_file'] != "" ? str_replace(",","<br>",$row['detail_file']) : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 290;right: 15;font-size:12px;float:left;width:490;height:85px;font-size:15px;">'.($row['remark'] != "" ? $row['remark'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 248;right: 350;font-size:12px;float:left;width:200;">'.($row['request_by'] != "" ? $row2['fullname'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 248;right: 5;font-size:12px;float:left;width:200;">'.($row['received'] != "" ? $row3['fullname'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 217;right: 20;font-size:12px;float:left;width:200;">'.($row['received'] != "" ? $row3['department'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 190;right: 318;font-size:12px;float:left;width:110;">'.($row['approved_order'] != "" ? $row4['fullname'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 190;right: -26;font-size:12px;float:left;width:110;">'.($row['approved_received'] != "" ? $row5['fullname'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 217;right: 380;font-size:12px;float:left;width:200;">'.($row['received'] != "" ? $row2['department'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 80;right: 50;height:50px;font-size:12px;float:left;width:600;">'.($row['attachedfile'] != "" ? $row['attachedfile'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 0;right: 50;height:50px;font-size:12px;float:left;width:600;">'.($row_due_date['due_date'] != "" ? $row_due_date['due_date'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 33;right: 330;font-size:12px;float:left;width:200;" class="thai">'.($row_due_date['remark'] != "" ? $row_due_date['remark'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 33;right: 170;font-size:12px;float:left;width:150;">'.($row_due_date['request_by_fullname'] != "" ? $row_due_date['request_by_fullname'] : null).'&nbsp;</div>
+<div style="position: fixed;bottom: 33;right: 10;font-size:12px;float:left;width:150;">'.($row_due_date['approved_by_fullname'] != "" ? $row_due_date['approved_by_fullname'] : null).'&nbsp;</div>
 <small>WE-EF LIGHTING Co Ltd</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>ISO9001:2008(E)</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>LIGHTGROUP Ltd</small>
 <small>Document no.: <b>07F-TS/GEN01-1/1 Rev. 00</b></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Effctive Date : 2 Oct 2009</small><br><h3 class="thai" style="text-align:center;">ใบสั่งงาน<br><span style="font-size:16px">JOB ORDER</span></h3>
 <div style="text-align:right;" class="thai 12">เลขที่ (No.)________</div>
@@ -63,12 +130,7 @@ $mpdf->WriteHTML('
 <td class="12 thai" style="text-align:center;">&nbsp;</td>
 <td class="12 thai" style="text-align:center;">&nbsp;</td>
 </tr>
-<tr>
-<td class="12 thai" style="text-align:center;">&nbsp;</td>
-<td class="12 thai" style="text-align:center;">&nbsp;</td>
-<td class="12 thai" style="text-align:center;">&nbsp;</td>
-<td class="12 thai" style="text-align:center;">&nbsp;</td>
-</tr>
+
 </table>');
 $mpdf->Output();
 ?>

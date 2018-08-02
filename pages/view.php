@@ -436,7 +436,7 @@
                                         <div class="mb-3" id="wt_sample_form" style="">
                                             <input type="text" class="form-control" name="wt_sample_form" placeholder="" value="<?php echo $row['wt_sample_form'];?>"
                                                 disabled>
-
+                                            <span id="to_sample"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

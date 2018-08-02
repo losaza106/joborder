@@ -156,6 +156,7 @@ $(document).ready(function () {
     var part_name_get = $('#part_name_get').text().split(',');
     for (var i = 0; i < part_name_get.length; i++) {
         $('#g_partname').append('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน" required readonly value="' + part_name_get[i] + '">');
+        $('#to_sample').append('<span class="pull-left">'+ part_name_get[i] +' </span>'+' <button class="btn btn-success mb-1" type="button">Create</button><br>');
     }
 
     var part_id_get = $('#part_id_get').text().split(',');

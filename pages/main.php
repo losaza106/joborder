@@ -27,13 +27,14 @@
             <div class="card-header">
               <h3 class="card-title pull-left">รายการ Job Order</h3>
               <select class="form-control col-lg-2 pull-right" id="sort_by">
-                <option value="1">Normal</option>
+                <option value="1">NORMAL</option>
                 <option value="2">TEMP</option>
+                <option value="3">WORKING RECORD</option>
               </select>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table table-bordered" id="data_table_all">
                 <thead>
                   <tr>
 

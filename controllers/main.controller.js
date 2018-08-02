@@ -19,23 +19,37 @@ $(document).ready(function () {
             search_by:search_by
         },
         success: function (res) {
-            $('#data_table').html(res);
+            $('#data_table_all').html(res);
         }
     });
 
         $('#sort_by').change(function () {
             search_by = $(this).val();
-            $.ajax({
-                url: 'services/main.service.php',
-                type: 'post',
-                data: {
-                    action: 1,
-                    search_by:search_by
-                },
-                success: function (res) {
-                    console.log(res);
-                    $('#data_table').html(res);
-                }
-            });
+            if(search_by == 3){
+                $.ajax({
+                    url: 'services/main.service.php',
+                    type: 'post',
+                    data: {
+                        action: 3
+                    },
+                    success: function (res) {
+                        
+                        $('#data_table_all').html(res);
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: 'services/main.service.php',
+                    type: 'post',
+                    data: {
+                        action: 1,
+                        search_by:search_by
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $('#data_table_all').html(res);
+                    }
+                });
+            }
         });
 });

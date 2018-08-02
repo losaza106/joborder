@@ -9,8 +9,19 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 	}
 	$result = $conn->query($sql);
 	$data = [];
-	$table = "";
-	$td = "";
+	$td = '<thead>
+	<tr>
+
+	  <th>เลขที่</th>
+	  <th>วันที่ร้องขอ</th>
+	  <th>วันที่ต้องการเสร็จ</th>
+	  <th>ผู้ส่ง</th>
+	  <th>ผู้รับ</th>
+	  <th>สถานะ</th>
+	  <th style="width: 40px">#</th>
+	</tr>
+	<tr>
+  </thead><tbody>';
 	while($row = mysqli_fetch_assoc($result)){
 		$td .= "<tr>";
         $request_by = $row['request_by'];
@@ -40,7 +51,7 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 		}else if($row['status'] == 2){
 			$td .= "<td>ปฎิเสธ</td>";
 		}else if($row['status'] == 3){
-			$td .= "<td>รReject โดย ผู้ส่ง</td>";
+			$td .= "<td>Reject โดย ผู้ส่ง</td>";
 		}else if($row['status'] == 4){
 			$td .= "<td>รอ Manager ของผู้รับ Approved</td>";
 		}else if($row['status'] == 5){
@@ -49,11 +60,10 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 			$td .= "<td>สำเร็จ</td>";
 		}
 		$session_id =$row['session_id'];
-		$td .= "<td><a href='?p=view&session_id=$session_id' class='btn btn-info'><i class='fa fa-eye' aria-hidden='true'></i> View</a></td>";
-		$td .= "</tr>";
+		$td .= "<td><a href='?p=view&session_id=$session_id' class='btn btn-info btn-sm'><i class='fa fa-eye' aria-hidden='true'></i> View</a><a target='_blank' href='pages/pdf.php?session_id=$session_id' class='btn btn-danger btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i> PDF</a></td>";
+		$td .= "</tr></tbody>";
 	}
-	$table .= $td;
-	echo $table;
+	echo $td;
 }
 
 if(isset($_POST['action']) && $_POST['action'] == 2){
@@ -107,5 +117,38 @@ if(isset($_POST['action']) && $_POST['action'] == 2){
 	}
 	$table .= $td;
 	echo $table;
+}
+
+if(isset($_POST['action']) && $_POST['action'] == 3){
+	$sql22 = "SELECT working_record.create_by,working_record.id_w_record FROM working_record";
+	$result22 = $conn->query($sql22);
+	$tr = '<thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Username ที่สร้าง</th>
+      <th scope="col">ชื่อผู้สร้าง</th>
+      <th scope="col"></th>
+    </tr>
+  </thead><tbody>';
+	if($result22){
+        $i = 1;
+        while($row22 = $result22->fetch_assoc()){
+            $id_create =  $row22['create_by'];
+            $sql23 = "SELECT username,fullname FROM member WHERE Id_member=$id_create";
+            $result23 = $conn->query($sql23);
+            $row23 = $result23->fetch_assoc();
+            $username_create = $row23['username'];
+            $fullname_create = $row23['fullname'];
+            $id_w_record = $row22['id_w_record'];
+            $tr .= "<tr>
+            <th scope='row'>$i</th>
+            <td>$username_create</td>
+            <td>$fullname_create</td>
+            <td><a href='?p=view_wr&id_w_record=$id_w_record' class='btn btn-info btn-sm'><i class='fa fa-eye' aria-hidden='true'></i> View</a><a href='pages/pdf_wr.php?session_id=$id_w_record' class='btn btn-danger btn-sm' target='_blank'><i class='fa fa-file-pdf-o' aria-hidden='true'></i> PDF</a></td>
+          </tr></tbody>";
+          $i++;
+        }
+	}
+	echo $tr;
 }
 ?>
