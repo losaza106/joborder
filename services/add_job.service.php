@@ -281,7 +281,6 @@ if($result){
             $email_sender = ""; // เมล์ผู้ส่ง
             $email_receiver = $row['email']; // เมล์ผู้รับ
             $email_eiei = $row['email'];
-            $position = $row['position'];
                 
             $subject = "REQUEST APPROVED JOBORDER ID : $nextID"; // หัวข้อเมล์ ... $nextId คือ รหัสของ Document
                  
@@ -324,18 +323,12 @@ if($result){
                         "message"=>"Failed."
                     ];
                 }else{
-                    $response = [
-                        "success"=>true,
-                        "message"=>"Success."
-                    ];
+                    $response = $nextID;
                 }   
             }
 		}
 	}
-	$response = [
-		"success"=>true,
-		"message"=>"true."
-	];
+	$response = $nextID;
 }else{
 	$response = [
 		"success"=>false,
@@ -370,4 +363,6 @@ function nextId(){
         return $nextId;
     }
 }
+
+echo $response;
 ?>

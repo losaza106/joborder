@@ -96,7 +96,7 @@
 		session_write_close();
 		$session_id = $_POST['session_id'];
 		$no_id = $_POST['no_id'];
-		$sql = "UPDATE mainjob SET status=4 WHERE session_id='$session_id'";
+		$sql = "UPDATE mainjob SET status=2 WHERE session_id='$session_id'";
 		$result = $conn->query($sql);
 		if($result){
 			$sql = "SELECT MGR1,MGR2 FROM member WHERE id_member=$user_id";
@@ -199,7 +199,7 @@
 		session_start();
 		$user_id = $_SESSION['id'];
 		session_write_close();
-		$sql = "UPDATE mainjob SET status=6,no_id='$id',approved_received=$user_id WHERE session_id='$session_id'";
+		$sql = "UPDATE mainjob SET status=3,no_id='$id',approved_received=$user_id WHERE session_id='$session_id'";	
 		$result = $conn->query($sql);
 		if($result){
 			$req = $_POST['req'];
@@ -215,12 +215,12 @@
 					$mail->SMTPAuth = true;
 					$mail->isSMTP();
 					$mail->Host = $smtp_mail;
-					$gmail_username = $username_email; // Email
-					$gmail_password = $password_email; // Password
+					$gmail_username = $username_email;
+					$gmail_password = $password_email; 
 		
-					$sender = "SSS_SYSTEM"; // ชื่อผู้ส่ง
-					$email_sender = ""; // เมล์ผู้ส่ง
-					$email_receiver = $row['email']; // เมล์ผู้รับ
+					$sender = "JOBORDER_SYSTEM"; 
+					$email_sender = ""; 
+					$email_receiver = $row['email'];
 					$email_eiei = $row['email'];
 						
 					$subject = "CREATE DOCUMENT SUCCESS ID : $id";
@@ -255,10 +255,10 @@
 									cursor: pointer;' href='{$root}{$path}/index.php?p=view&session_id={$session_id}'>View</a></h3>
 							</body>
 						</html>
-					"; // ข้างบน คือข้อมูลที่จะส่งไปในเมล์ ในการส่งให้ APPROVED
+					"; 
 					if($email_receiver){
 						$mail->msgHTML($email_content);
-						if (!$mail->send()) {  // สั่งให้ส่ง email
+						if (!$mail->send()) {
 							$response = [
 								"success"=>false,
 								"message"=>"Failed."

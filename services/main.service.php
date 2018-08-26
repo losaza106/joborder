@@ -49,13 +49,13 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 		}else if($row['status'] == 1){
 			$td .= "<td>รอผู้รับ APPROVED</td>";
 		}else if($row['status'] == 2){
-			$td .= "<td>ปฎิเสธ</td>";
-		}else if($row['status'] == 3){
-			$td .= "<td>Reject โดย ผู้ส่ง</td>";
-		}else if($row['status'] == 4){
 			$td .= "<td>รอ Manager ของผู้รับ Approved</td>";
+		}else if($row['status'] == 3){
+			$td .= "<td>กำลังทำ</td>";
+		}else if($row['status'] == 4){
+			$td .= "<td>เสร็จแล้ว</td>";
 		}else if($row['status'] == 5){
-			$td .= "<td>Reject โดย Manager ของผู้รับ</td>";
+			$td .= "<td>ปิด</td>";
 		}else{
 			$td .= "<td>สำเร็จ</td>";
 		}

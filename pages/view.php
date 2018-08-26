@@ -42,6 +42,40 @@
     $MGR1_received = $row_req['MGR1'];
     $MGR2_received = $row_req['MGR2'];
 ?>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Genarate Sample Qualification</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">PART ID</th>
+      <th scope="col">PART NAME</th>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody id="genarate">
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+  </tbody>
+</table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     <div class="content-wrapper">
         <!-- Main content -->
         <span id="no_id" style="display:none;"><?php echo $row['no_id']; ?></span><span id="received" style="display:none;"><?php echo $row['request_by']; ?></span>
@@ -75,24 +109,24 @@
                                 echo 'รอ Manager ของผู้ส่ง Approved';
                                }
                         }else if($row['status'] == 1){
-                            if($row['received'] == $_SESSION['id']){
+                            if($row['received'] == $_SESSION['id']){ 
                                 echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-primary'>Received Approved</a>";
                             }else{
                                 echo 'รอ ผู้รับ Approved';
                             }
                             
                            }else if($row['status'] == 2){
-                            echo "Reject โดย Manager ของผู้ส่ง";
-                           }else if($row['status'] == 3){
-                            echo "Reject โดย ผู้ส่ง";
-                           }else if($row['status'] == 4){
                             if($MGR1_received === $_SESSION['username'] || $MGR2_received === $_SESSION['username']){
                                 echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-primary'>Manager Approved (Received)</a>";
                                }else{
                                 echo "รอ Manager ของผู้รับ Approved";
                                }
+                           }else if($row['status'] == 3){
+                            echo "กำลังทำของ";
+                           }else if($row['status'] == 4){
+                            echo "Finish เสร็จแล้ว";
                            }else if($row['status'] == 5){
-                            echo "Reject โดย Manager ของผู้รับ";
+                            echo "Close ปิด";
                            }else{
                             echo "Success.";
                            }
@@ -149,6 +183,9 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            
+                            
                         </div>
 
                     </div>
@@ -281,7 +318,7 @@
             <th scope='row'>$i</th>
             <td>$username_create</td>
             <td>$fullname_create</td>
-            <td><a href='?p=view_wr&id_w_record=$id_w_record' class='btn btn-info btn-sm'>View</a><a href='#' class='btn btn-danger btn-sm'>PDF</a></td>
+            <td><a href='?p=view_wr&id_w_record=$id_w_record' class='btn btn-info btn-sm'>View</a><a href='pages/pdf_wr.php?session_id=$id_w_record' class='btn btn-danger btn-sm'>PDF</a></td>
           </tr>";
           $i++;
         }

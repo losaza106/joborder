@@ -26,6 +26,15 @@ $(document).ready(function () {
         }
     }
     
+    $(".logout").click(function () {
+        $.ajax({
+            url: 'services/logout.service.php',
+            type: 'get',
+            success: function (res) {
+                location.replace(res);
+            }
+        });
+    });
 
     if($('#part_name_get').text() == "No"){
         $('#g_partname').append('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน" required value="">');

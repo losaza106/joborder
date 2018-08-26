@@ -22,6 +22,8 @@ if($checkUser = $result->num_rows){
         $_SESSION['id'] = $row['id_member'];
         $_SESSION['fullname'] = $row['fullname'];
         $_SESSION['username'] = $row['username'];
+        $_SESSION['mgr1'] = $row['MGR1'];
+        $_SESSION['mgr2'] = $row['MGR2'];
         echo json_encode($response);
     }else{
         $response = [

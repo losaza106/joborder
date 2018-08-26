@@ -14,10 +14,10 @@ $(document).ready(function () {
 	var status_doc = $('#status_doc').text();
     var session_id = $('#session_id').text();
     var id_renew = $('#id_renew').text();
+    var no_id = $('#no_id').text();
     var request_by_due_date = $('#request_by_due_date').text();
     var due_date = $('#due_date').text();
     $('#reject_due_btn').click(function(){
-        
         var remark_reject = $('#remark_reject').val();
         if(remark_reject == ""){
             swal({
@@ -114,7 +114,7 @@ $(document).ready(function () {
           })
     });
 
-	if(req === received_by && status_doc == 6){
+	if(req === received_by && status_doc == 3){
 		
 	}else{
 		$('#if_status_renew').hide();
@@ -156,13 +156,15 @@ $(document).ready(function () {
     var part_name_get = $('#part_name_get').text().split(',');
     for (var i = 0; i < part_name_get.length; i++) {
         $('#g_partname').append('<input type="text" class="form-control" id="part_name" name="part_name[]" placeholder="ชื่อชิ้นงาน" required readonly value="' + part_name_get[i] + '">');
-        $('#to_sample').append('<span class="pull-left">'+ part_name_get[i] +' </span>'+' <button class="btn btn-success mb-1" type="button">Create</button><br>');
+        
     }
-
+    var tr = "";
     var part_id_get = $('#part_id_get').text().split(',');
     for (var i = 0; i < part_id_get.length; i++) {
         $('#g_part_id').append('<input type="text" class="form-control" id="part_id" name="part_id[]" placeholder="หมายเลขชิ้นงาน" required readonly value="' + part_id_get[i] + '">');
+        tr += "<tr><td>"+ part_id_get[i] +"</td><td>" + part_name_get[i] + "</td><td><a style='color:#fff;' href='../sq/index.php?p=genarate&partid="+ part_id_get[i] +"&session_id="+ session_id +"&no_id="+ no_id +"' target='_blank' class='btn btn-success'>Genarate</a></td></tr>";
     }
+    $('#genarate').html(tr);
 
     var checkOther_type = $('#other_type_select').is(':checked');
     if (checkOther_type) {
@@ -177,6 +179,7 @@ $(document).ready(function () {
     var checkSample_wt = $('#wt_sample_select').is(':checked');
     if (checkSample_wt) {
         $('#wt_sample_form').css('display', 'block');
+        $('#to_sample').append('<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo">Genarate Sample Qualification</button>');
     }
 
     var checkpd_wt = $('#wt_pd_select').is(':checked');

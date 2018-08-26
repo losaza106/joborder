@@ -66,10 +66,6 @@ $(document).ready(function () {
         
     });
 
-    $('#search_partid').click(function () {
-        console.log('test');
-    });
-
     $('input[name="tool_type"]').on('change', function () {
         $('input[name="tool_type"]').not(this).prop('checked', false);
 
@@ -205,9 +201,10 @@ $(document).ready(function () {
 				type: 'post',
 				data: formData,
 				success: function (res) {
+                    
 					swal({
                         title: 'Success.',
-                        text: "Waiting for approval from your manager.",
+                        text: "DOCUMENT ID : "+ res,
                         type: 'success',
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',

@@ -29,7 +29,7 @@
                 echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
                 exit();
             }
-        }else if($row['status'] == 4){
+        }else if($row['status'] == 2){
             $sql2 = "SELECT * FROM member WHERE id_member=$received";
             $result2 = $conn->query($sql2);
             $row87 = $result2->fetch_assoc();
@@ -80,10 +80,8 @@
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED3</button>
                             <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as id="reject_button">
                                 <i class="fa fa-times" aria-hidden="true"></i> REJECT</button>
-                                <button class="btn btn-danger" id="reject_button2">
-                                <i class="fa fa-times" aria-hidden="true"></i> REJECT2</button>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo" as id="reject_button3">
-                                <i class="fa fa-times" aria-hidden="true"></i> REJECT3</button>
+                                
+                                
                         </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -157,11 +155,11 @@
                            }else if($row['status'] == 1){
                             echo "รอผู้รับ Approved";
                            }else if($row['status'] == 2){
-                            echo "Reject โดย Manager ของผู้ส่ง";
-                           }else if($row['status'] == 3){
-                            echo "Reject โดย ผู้ส่ง";
-                           }else if($row['status'] == 4){
                             echo "รอ Manager ของผู้รับ Approved";
+                           }else if($row['status'] == 3){
+                            echo "";
+                           }else if($row['status'] == 4){
+                            echo "";
                            }else if($row['status'] == 5){
                             echo "Reject โดย Manager ของผู้รับ";
                            }else{

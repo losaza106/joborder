@@ -46,7 +46,7 @@ $(document).ready(function () {
                         search_by:search_by
                     },
                     success: function (res) {
-                        console.log(res);
+                        
                         $('#data_table_all').html(res);
                     }
                 });

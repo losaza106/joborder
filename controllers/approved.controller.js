@@ -13,7 +13,6 @@ $(document).ready(function () {
     var status = $('#status').text();
     if(status == 1){
         $('#button_approved').hide();
-        $('#reject_button').hide();
         $('#button_approved3').hide();
         $('#reject_button3').hide();
     }else if(status == 0){
@@ -21,11 +20,10 @@ $(document).ready(function () {
         $('#reject_button2').hide();
         $('#button_approved3').hide();
         $('#reject_button3').hide();
-    }else if(status == 4){
+    }else if(status == 2){
         $('#button_approved2').hide();
         $('#reject_button2').hide();
         $('#button_approved').hide();
-        $('#reject_button').hide();
     }else if(status == 5){
         $('#if_reject').hide();
     }else if(status == 3){
@@ -118,6 +116,7 @@ $(document).ready(function () {
                             message: message
                         },
                         success: function (res) {
+                            
                             var data = $.parseJSON(res);
                             if (data.success) {
                                 swal({
@@ -264,95 +263,7 @@ $(document).ready(function () {
         })
     });
 
-    $('#reject_button2').click(function(){
-        var session_id = $('#session_id').text();
-        swal({
-            title: 'Comfirm Reject?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes.'
-        }).then((result) => {
-            if (result.value) {
-               $.ajax({
-                   url:'services/reject.service.php',
-                   type:'post',
-                   data:{action:2,session_id:session_id},
-                   success:function(res){
-                    var data = $.parseJSON(res);
-                    if (data.success) {
-                        swal({
-                            title: 'Success.',
-                            text: "Reject Success.",
-                            type: 'success',
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.value) {
-                                window.location = 'index.php';
-                            }
-                        });
-                    } else {
-                        swal({
-                            type: 'error',
-                            title: 'Error...',
-                            text: 'Something Wrong!..'
-                        });
-                    }
-                   },
-                   beforeSend: function () {
-                    swal({
-                        title: 'Process..',
-                        allowOutsideClick: false
-                    });
-                    swal.showLoading();
-                }
-               });
-            }
-        })
-    });
 
-    $('#btn_reject2').click(function(){
-        var session_id = $('#session_id').text();
-        var message = $('#message-text2').val();
-        if(message == ""){
-            swal({
-                type: 'error',
-                title: 'Wrong!...',
-                text: 'Please fill Comment!.'
-            });
-        }else{
-            swal({
-                title: 'Comfirm Reject?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes.'
-            }).then((result) => {
-                if (result.value) {
-                   $.ajax({
-                       url:'services/reject.service.php',
-                       type:'post',
-                       data:{action:3,session_id:session_id,message:message},
-                       success:function(res){
-                        console.log(res);
-                       },
-                       beforeSend: function () {
-                        swal({
-                            title: 'Process..',
-                            allowOutsideClick: false
-                        });
-                        swal.showLoading();
-                    }
-                   });
-                }
-            })
-        }
-        
-    });
 
     $('#button_approved3').click(function(){
         var session_id = $('#session_id').text();
