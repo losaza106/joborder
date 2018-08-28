@@ -57,7 +57,7 @@ if(isset($_POST['action']) && $_POST['action'] == 1){
 		}else if($row['status'] == 5){
 			$td .= "<td>ปิด</td>";
 		}else{
-			$td .= "<td>สำเร็จ</td>";
+			$td .= "<td>Reject</td>";
 		}
 		$session_id =$row['session_id'];
 		$td .= "<td><a href='?p=view&session_id=$session_id' class='btn btn-info btn-sm'><i class='fa fa-eye' aria-hidden='true'></i> View</a><a target='_blank' href='pages/pdf.php?session_id=$session_id' class='btn btn-danger btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i> PDF</a></td>";

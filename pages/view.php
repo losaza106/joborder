@@ -128,7 +128,11 @@
                            }else if($row['status'] == 5){
                             echo "Close ปิด";
                            }else{
-                            echo "Success.";
+							if($row['status'] == 6 && $row['request_by'] == $user_id){
+								echo "<a href='?p=reject_job&session_id=$session_id&login=1' class='btn btn-danger'><i class='fa fa-recycle' aria-hidden='true'></i> Reject</a>";
+							}else{
+								echo "Reject";
+							}
                            }
                            ?>
                         </div>
