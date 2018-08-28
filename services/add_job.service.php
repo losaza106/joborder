@@ -65,12 +65,6 @@ if(isset($_POST['asset_id']) AND $_POST['asset_id'] != ""){
     $asset_id_FIELD = false;
 }
 
-function testValue($val1,$val2){
-	echo $val1;
-	echo '<br>';
-	echo $val2;
-}
-
 if(isset($_POST['tool_type']) AND $_POST['tool_type'] != ""){
 	$tool_type = $_POST['tool_type'];
 	$tool_type_FIELD = true;
