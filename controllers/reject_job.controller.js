@@ -68,7 +68,18 @@ $(document).ready(function () {
             type: 'post',
             data: formData,
             success: function (res) {
-                console.log(res);
+                swal({
+                    title: 'Success.',
+                    text: "Save Sucess.",
+                    type: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        location.reload();
+                    }
+                });
             }
         });
     });
@@ -239,4 +250,47 @@ $(document).ready(function () {
     if (checkpd_wt) {
         $('#wt_pd_form').css('display', 'block');
     }
+
+    $('.delete_doc').click(function() {
+        var id_pic = $(this).attr('id_cus');
+        var session_id = $('#session_id').text();
+        swal({
+            title: 'Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: 'services/file.service.php',
+                    type: 'post',
+                    data: { id_pic: id_pic, session_id: session_id },
+                    success: function(res) {
+                        var data = $.parseJSON(res);
+                        if (data.success) {
+                            swal({
+                                title: 'Deleted!',
+                                text: 'Your file has been deleted.',
+                                type: 'success',
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            swal({
+                                type: 'error',
+                                title: 'Something went wrong!...'
+                            })
+                        }
+                    }
+                });
+            }
+        })
+    });
 });

@@ -1,4 +1,5 @@
 <?php 
+include "../config/dbh.inc.php";
 if(isset($_POST['request_date']) AND $_POST['request_date'] != ""){
 	$request_date = $_POST['request_date'];
 	$request_date_FIELD = true;
@@ -68,8 +69,8 @@ if(isset($_POST['tool_type']) AND $_POST['tool_type'] != ""){
     $tool_type_FIELD = false;
 }
 
-if(isset($_POST['other_type']) AND $_POST['other_type'] != ""){
-	$other_type = $_POST['other_type'];
+if(isset($_POST['other_wt_form']) AND $_POST['other_wt_form'] != ""){
+	$other_type = $_POST['other_wt_form'];
 	$other_type_FIELD = true;
 }else{
     $other_type_FIELD = false;
@@ -168,9 +169,92 @@ if(isset($_POST['remark']) AND $_POST['remark'] != ""){
     $remark_FIELD = false;
 }
 
+if(isset($_POST['part_name']) AND $_POST['part_name'] != ""){
+	$part_name_ar = $_POST['part_name'];
+	$lastElement = end($part_name_ar);
+	$part_name = "";
+	for($i = 0;$i<count($part_name_ar);$i++){
+		if($part_name_ar[$i] == $lastElement){
+			$part_name .= $part_name_ar[$i];
+		}else{
+			$part_name .= $part_name_ar[$i].",";
+		}
+	}
+	
+	$part_name_FIELD = true;
+}else{
+    $part_name_FIELD = false;
+}
+
 $session_id = $_POST['session'];
 
-$sql = "UPDATE mainjob SET ".($due_date_FIELD ? "due_date = $due_date ," : null)." session_id='$session_id'"." WHERE session_id='$session_id'";
+if($_FILES['attachedfile']['name'][0] != null){
+    $filenaja2 = "";
+	$lastElement = end($_FILES['attachedfile']['name']);
+    if(is_array($_FILES))  
+    {  
+		foreach($_FILES['attachedfile']['name'] as $name => $value)  
+        {  
+			if($_FILES['attachedfile']['name'][$name] == $lastElement){
+				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja2 .= $new_name.",";
+			}else{
+				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
+				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
+				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
+				$targetPath = "../upload/".$new_name;  
+				move_uploaded_file($sourcePath, $targetPath); 
+				$filenaja2 .= $new_name.",";
+			}
+            
+		}
+		$sql = "SELECT attachedfile FROM mainjob WHERE session_id='$session_id'";
+		$result = $conn->query($sql);
+		$data = $result->fetch_assoc();
+		$pic_name = $data['attachedfile'];
+		
+		$mix_name = $pic_name.$filenaja2;
+    }  
+    $File_Field2 = true;
+	}else{
+    $File_Field2 = false;
+}
 
-echo $sql;
+if(isset($_POST['part_id']) AND $_POST['part_id'] != ""){
+	$part_id_ar = $_POST['part_id'];
+	$lastElement = end($part_id_ar);
+	$part_id = "";
+	for($i = 0;$i<count($part_id_ar);$i++){
+		if($part_id_ar[$i] == $lastElement){
+			$part_id .= $part_id_ar[$i];
+		}else{
+			$part_id .= $part_id_ar[$i].",";
+		}
+	}
+	$part_id_FIELD = true;
+}else{
+    $part_id_FIELD = false;
+}
+
+
+$sql = "UPDATE mainjob SET ".($due_date_FIELD ? "due_date = '$due_date' ," : null).($tool_type_FIELD ? "tool_type = $tool_type ," : null).($tool_name_FIELD ? "tool_name = '$tool_name' ," : null).($asset_id_FIELD ? "asset_id = '$asset_id' ," : null).($other_type_FIELD ? "tool_type_other = '$other_type' ," : null).($wt_new ? "wt_new = '$wt_new' ," : null).($wt_replace_FIELD ? "wt_replace = '$wt_replace' ," : null).($wt_other_FIELD ? "wt_other = '$wt_other' ," : null).($wt_modify_FIELD ? "wt_modify = '$wt_modify' ," : null).($wt_sample_FIELD ? "wt_sample = '$wt_sample' ," : null).($wt_sample_form_FIELD ? "wt_sample_form = '$wt_sample_form' ," : null).($wt_repair_FIELD ? "wt_repair = '$wt_repair' ," : null).($wt_pd_FIELD ? "wt_pd = '$wt_pd' ," : null).($wt_pd_form_FIELD ? "wt_pd_form = '$wt_pd_form' ," : null).($estimated_FIELD ? "estimated = '$estimated' ," : null).($detail_work_FIELD ? "detail_work = '$detail_work' ," : null).($estimated_FIELD ? "estimated = '$estimated' ," : null).($part_id_FIELD ? "part_id = '$part_id' ," : null).($part_name_FIELD ? "part_name = '$part_name' ," : null).($remark_FIELD ? "remark = '$remark' ," : null).($File_Field2 ? "attachedfile = '$mix_name' ," : null)." session_id='$session_id'"." WHERE session_id='$session_id'";
+
+$result = $conn->query($sql);
+if($result){
+	$response = [
+		"success"=>true,
+		"message"=>"true."
+	];
+}else{
+	$response = [
+		"success"=>false,
+		"message"=>"Failed."
+	];
+}
+
+echo json_encode($response);
 ?>

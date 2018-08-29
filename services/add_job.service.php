@@ -224,7 +224,7 @@ if($_FILES['attachedfile']['name'][0] != null){
 				$sourcePath = $_FILES["attachedfile"]["tmp_name"][$name];  
 				$targetPath = "../upload/".$new_name;  
 				move_uploaded_file($sourcePath, $targetPath); 
-				$filenaja2 .= $new_name;
+				$filenaja2 .= $new_name.",";
 			}else{
 				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
 				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  

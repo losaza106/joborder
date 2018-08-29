@@ -616,7 +616,7 @@
                                       </li>';
                                     }else{
                                         $array_file = explode(",",$row['attachedfile']);
-                                        for($i=0;$i<count($array_file);$i++){
+                                        for($i=0;$i<count($array_file)-1;$i++){
                                             $arr_file_name = explode("__",$array_file[$i]);
                                             $arr_exten_name = explode(".",$arr_file_name[1]);
                                             $file_show = $arr_file_name[0].'.'.$arr_exten_name[1];
