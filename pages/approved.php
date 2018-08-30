@@ -361,12 +361,12 @@
                                 <div class="col-md-12">
                                     <hr>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <b style="text-decoration:underline;">รายละเอียดของงาน: (Description of Work Required)</b>
                                     <textarea class="form-control" name="detail_work" rows="3" placeholder="ข้อความ" readonly><?php echo $row['detail_work'];?>
                                     </textarea>
                                 </div>
-                                <div class="col-md-6">
+                                
                                     <div class="form-group">
                                         <label for="detail_file" style="text-decoration:underline;">แนบไฟล์รายละเอียดงาน</label>
 
@@ -435,7 +435,7 @@
                                       </li>';
                                     }else{
                                         $array_file = explode(",",$row['attachedfile']);
-                                        for($i=0;$i<count($array_file);$i++){
+                                        for($i=0;$i<count($array_file)-1;$i++){
                                             $arr_file_name = explode("__",$array_file[$i]);
                                             $arr_exten_name = explode(".",$arr_file_name[1]);
                                             $file_show = $arr_file_name[0].'.'.$arr_exten_name[1];

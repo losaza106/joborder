@@ -271,7 +271,7 @@ if($result){
             $gmail_username = $username_email; // Email
             $gmail_password = $password_email; // Password
 
-            $sender = "SSS_SYSTEM"; // ชื่อผู้ส่ง
+            $sender = "JOBORDER_SYSTEM"; // ชื่อผู้ส่ง
             $email_sender = ""; // เมล์ผู้ส่ง
             $email_receiver = $row['email']; // เมล์ผู้รับ
             $email_eiei = $row['email'];

@@ -48,10 +48,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title text-center">
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> APPROVED JOBORDER</h3>
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Process.</h3>
                         </div>
                         <div class="card-body text-center">
-                            <!-- Button -->
+                            <button class="btn btn-info" id="send_next">Click to Next Process.</button>
                                 
                                 
                         </div>

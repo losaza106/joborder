@@ -195,6 +195,7 @@ if($_FILES['attachedfile']['name'][0] != null){
     {  
 		foreach($_FILES['attachedfile']['name'] as $name => $value)  
         {  
+		if($_FILES['attachedfile']['name'][$name] != ""){
 			if($_FILES['attachedfile']['name'][$name] == $lastElement){
 				$file_name = explode(".", $_FILES['attachedfile']['name'][$name]);  
 				$new_name = $file_name[0] .'__'.rand().'.'. $file_name[1];  
@@ -210,7 +211,7 @@ if($_FILES['attachedfile']['name'][0] != null){
 				move_uploaded_file($sourcePath, $targetPath); 
 				$filenaja2 .= $new_name.",";
 			}
-            
+		}
 		}
 		$sql = "SELECT attachedfile FROM mainjob WHERE session_id='$session_id'";
 		$result = $conn->query($sql);
@@ -255,6 +256,5 @@ if($result){
 		"message"=>"Failed."
 	];
 }
-
 echo json_encode($response);
 ?>

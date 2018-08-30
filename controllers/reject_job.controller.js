@@ -44,6 +44,36 @@ $(document).ready(function () {
             }
         });
     });
+	var session_id = $('#session_id').text();
+	var no_id = $('#no_id').text();
+	$("#send_next").click(function(){
+		$.ajax({
+			url:'services/reject.service.php',
+			type:'post',
+			data:{session_id:session_id,action:5,no_id:no_id},
+			success:function(res){
+				swal({
+                    title: 'Success.',
+                    text: "DOCUMENT ID : "+ res,
+                    type: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        window.location = 'index.php';
+                    }
+                });
+			},
+			beforeSend: function() {
+                swal({
+                    title: 'Process..',
+                    allowOutsideClick: false
+                });
+                swal.showLoading();
+            }
+		});
+	});
 
     var part_name_get = $('#part_name_get').text().split(',');
     for (var i = 0; i < part_name_get.length; i++) {
@@ -253,7 +283,7 @@ $(document).ready(function () {
 
     $('.delete_doc').click(function() {
         var id_pic = $(this).attr('id_cus');
-        var session_id = $('#session_id').text();
+        
         swal({
             title: 'Are you sure?',
             type: 'warning',
