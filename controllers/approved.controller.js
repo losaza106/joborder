@@ -14,20 +14,33 @@ $(document).ready(function () {
     if(status == 1){
         $('#button_approved').hide();
         $('#button_approved3').hide();
+		$('#button_approved4').hide();
         $('#reject_button3').hide();
     }else if(status == 0){
         $('#button_approved2').hide();
         $('#reject_button2').hide();
         $('#button_approved3').hide();
+		$('#button_approved4').hide();
         $('#reject_button3').hide();
     }else if(status == 2){
         $('#button_approved2').hide();
+		$('#button_approved4').hide();
         $('#reject_button2').hide();
         $('#button_approved').hide();
     }else if(status == 5){
         $('#if_reject').hide();
     }else if(status == 3){
-        $('#if_reject').hide();
+        $('#button_approved2').hide();
+        $('#reject_button2').hide();
+        $('#button_approved').hide();
+		$('#reject_button').hide();
+		$('#button_approved3').hide();
+    }else if(status == 4){
+        $('#button_approved2').hide();
+        $('#reject_button2').hide();
+        $('#button_approved').hide();
+		$('#reject_button').hide();
+		$('#button_approved3').hide();
     }else if(status == 6){
         $('#if_reject').hide();
     }
@@ -87,9 +100,9 @@ $(document).ready(function () {
     if (checkpd_wt) {
         $('#wt_pd_form').css('display', 'block');
     }
-
+	var session_id = $('#session_id').text();
     $('#btn_reject').click(function () {
-        var session_id = $('#session_id').text();
+        
         var message = $('#message-text').val();
         if (message == "") {
             swal({
@@ -153,11 +166,11 @@ $(document).ready(function () {
         }
 
     });
-
+	var no_id = $('#no_id').text();
     $('#button_approved').click(function () {
         var session_id = $('#session_id').text();
         var received = $('#received').text();
-        var no_id = $('#no_id').text();
+        
         
         swal({
             title: 'Comfirm?',
@@ -264,11 +277,11 @@ $(document).ready(function () {
     });
 
 
-
+	var req = $('#req').text();
     $('#button_approved3').click(function(){
         var session_id = $('#session_id').text();
         var no_id = $('#no_id').text();
-        var req = $('#req').text();
+        
         swal({
             title: 'Comfirm?',
             type: 'warning',
@@ -316,4 +329,33 @@ $(document).ready(function () {
             }
         })
     });
+	
+	$('#button_approved4').click(function(){
+		$.ajax({
+			url:'services/approved.service.php',
+			type:'post',
+			data:{action:4,session_id:session_id,req:req,no_id:no_id},
+			success:function(res){
+				swal({
+                    title: "Success",
+                    text: "FINISH",
+                    type: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        window.location = 'index.php';
+                    }
+                });
+			},
+			beforeSend: function () {
+                swal({
+                    title: 'Process..',
+                    allowOutsideClick: false
+                });
+                swal.showLoading();
+            }
+		});
+	});
 });

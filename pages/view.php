@@ -122,9 +122,20 @@
                                 echo "รอ Manager ของผู้รับ Approved";
                                }
                            }else if($row['status'] == 3){
-                            echo "กำลังทำของ";
+							   if($row['approved_received'] == $user_id){
+								   echo "กำลังทำของ<br>";
+								echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-info'><i class='fa fa-arrow-right' aria-hidden='true'></i> Click to Next Process.</a>";
+							   }else{
+								   echo "กำลังทำของ<br>";
+							   }
+                            
                            }else if($row['status'] == 4){
-                            echo "Finish เสร็จแล้ว";
+							   if($row['request_by'] == $user_id){
+								   echo "<a href='?p=approved&session_id=$session_id&login=1' class='btn btn-info'><i class='fa fa-arrow-right' aria-hidden='true'></i> Click to Close Job</a>";
+							   }else{
+								   echo "Finish เสร็จแล้ว";
+							   }
+                            
                            }else if($row['status'] == 5){
                             echo "Close ปิด";
                            }else{

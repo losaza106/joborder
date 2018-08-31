@@ -41,6 +41,20 @@
                 echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
                 exit();
             }
+        }else if($row['status'] == 3){
+            if($row['approved_received'] == $user_id){
+                unset($_SESSION['login']);
+            }else{
+                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+                exit();
+            }
+        }else if($row['status'] == 4){
+            if($row['request_by'] == $user_id){
+                unset($_SESSION['login']);
+            }else{
+                echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php">';
+                exit();
+            }
         }else{
 			$url_reload = '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=index.php?p=view&session_id='.$session_id.'">';
 			echo $url_reload;
@@ -64,12 +78,12 @@
         <div class="container-fluid">
         
             <!-- Small boxes (Stat box) -->
-            <div class="row" id="if_reject">
+            <div class="row" id="">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title text-center">
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> APPROVED JOBORDER</h3>
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <?php echo ($row['status'] == 3 ? "คลิก FINISH ถ้าทำของเสร็จแล้ว" : "APPROVED JOBORDER")?></h3>
                         </div>
                         <div class="card-body text-center">
                             <button class="btn btn-primary" id="button_approved">
@@ -78,10 +92,13 @@
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED2</button>
                                 <button class="btn btn-primary" id="button_approved3">
                                 <i class="fa fa-check-circle-o" aria-hidden="true"></i> APPROVED3</button>
+								
                             <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" as id="reject_button">
                                 <i class="fa fa-times" aria-hidden="true"></i> REJECT</button>
-                                
-                                
+                                <button class="btn btn-primary" id="button_approved4">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i> FINISH</button>
+                                <button class="btn btn-success" id="close_job">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i> CLOSE JOB</button>
                         </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -157,9 +174,9 @@
                            }else if($row['status'] == 2){
                             echo "รอ Manager ของผู้รับ Approved";
                            }else if($row['status'] == 3){
-                            echo "";
+                            echo "กำลังทำของ";
                            }else if($row['status'] == 4){
-                            echo "";
+                            echo "FINISH รอ CLOSE JOB";
                            }else if($row['status'] == 5){
                             echo "Reject โดย Manager ของผู้รับ";
                            }else{
@@ -199,9 +216,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <p style="display:none;" id="part_name_get">
-                                            <?php echo $row['part_name'];?>
-                                        </p>
+                                        <p style="display:none;" id="part_name_get"><?php echo $row['part_name'];?></p>
                                         <label for="part_name" id="add_part_name">ชื่อชิ้นส่วน (Part Name)</label>
                                         <span id="g_partname"></span>
 
@@ -210,9 +225,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <p style="display:none;" id="part_id_get">
-                                            <?php echo $row['part_id'];?>
-                                        </p>
+                                        <p style="display:none;" id="part_id_get"><?php echo $row['part_id'];?></p>
                                         <label for="part_id" id="add_part_id">หมายเลขชิ้นงาน (Part ID)</label>
                                         <span id="g_part_id"></span>
                                     </div>
@@ -350,7 +363,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6 mt-2">
+                                <div class="col-md-7 mt-2">
                                     <div class="form-group">
 
                                         <label for="estimated">จำนวนที่ใช้ต่อปี: (estimated annual consumption)</label>
@@ -367,32 +380,7 @@
                                     </textarea>
                                 </div>
                                 
-                                    <div class="form-group">
-                                        <label for="detail_file" style="text-decoration:underline;">แนบไฟล์รายละเอียดงาน</label>
-
-                                        <?php 
                                     
-                                    if($row['detail_file'] == ""){
-                                        echo '<ul class="list-group" style="">';
-                                        echo '<li class="list-group-item">
-                                        <span class="badge"></span>
-                                        
-                                        <a href="#">No Document.</a>
-                                      </li>';
-                                    }else{
-                                        $array_file = explode(",",$row['detail_file']);
-                                        for($i=0;$i<count($array_file);$i++){
-                                            $arr_file_name = explode("__",$array_file[$i]);
-                                            $arr_exten_name = explode(".",$arr_file_name[1]);
-                                            $file_show = $arr_file_name[0].'.'.$arr_exten_name[1];
-                                            echo '<li class="list-group-item">
-                                            <a href="upload/'.$array_file[$i].'" target="_blank">'.$file_show.'</a>
-                                      </li>';
-                                    }
-                                }
-                                ?>
-
-                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <hr>

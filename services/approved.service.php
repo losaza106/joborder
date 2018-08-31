@@ -288,17 +288,105 @@
 		echo json_encode($response);
 	}
 
+	if(isset($_POST['action']) && $_POST['action'] == 4){
+		$req = $_POST['req'];
+		$no_id = $_POST['no_id'];
+		$session_id = $_POST['session_id'];
+		$sql = "UPDATE mainjob SET status=4 WHERE session_id='$session_id'";
+		$result = $conn->query($sql);
+		if($result){
+			$sql = "SELECT email,id_member FROM member WHERE id_member=$req";
+			$result = $conn->query($sql);
+			if($result){
+				require("phpmailer/PHPMailerAutoload.php");
+				while($row = $result->fetch_assoc()){
+					$mail = new PHPMailer;
+					$mail->CharSet = "utf-8";
+					$mail->Port = $port_mail;
+					$mail->SMTPSecure = 'tls';
+					$mail->SMTPAuth = true;
+					$mail->isSMTP();
+					$mail->Host = $smtp_mail;
+					$gmail_username = $username_email;
+					$gmail_password = $password_email; 
+		
+					$sender = "JOBORDER_SYSTEM"; 
+					$email_sender = "";
+					$email_receiver = $row['email'];
+					$email_eiei = $row['email'];
+						
+					$subject = "[FINISH] DOCUMENT SUCCESS ID : $no_id";
+						 
+					$mail->Username = $gmail_username;
+					$mail->Password = $gmail_password;
+					$mail->setFrom($email_sender, $sender);
+					$mail->AddAddress($email_receiver);
+					$mail->Subject = $subject;
+					$root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+					$email_content = "
+						<!DOCTYPE html>
+						<html>
+							<head>
+								<meta charset=utf-8'/>
+								<title>APPROVED</title>
+							</head>
+							<body>
+								<meta charset=utf-8'/>
+								<h1 style='color:black; font-size: 18px; font-family: verdana;'>[FINISH] DOCUMENT SUCCESS | ID : $no_id</h1>
+								<br>
+								<h3 style='font-size: 14px; font-family: verdana;'><a style='font-size: 14px; font-family:verdana;'><a style='background-color: #008CBA;
+									border: none;
+									color: #FFFFFF;
+									padding: 15px 32px;
+									text-align: center;
+									-webkit-transition-duration: 0.4s;
+									transition-duration: 0.4s;
+									margin: 16px 0 !important;
+									text-decoration: none;
+									font-size: 16px;
+									cursor: pointer;' href='{$root}{$path}/index.php?p=approved&session_id={$session_id}'>Click to Close Job.</a></h3>
+							</body>
+						</html>
+					"; 
+					if($email_receiver){
+						$mail->msgHTML($email_content);
+						if (!$mail->send()) {
+							$response = [
+								"success"=>false,
+								"message"=>"Failed."
+							];
+						}else{
+							$response = [
+								"success"=>true,
+								"message"=>"Success.",
+								"id"=>$id
+							];
+						}  
+						
+					}
+				}
+			}
+			
+		}else{
+			$response = [
+				"success"=>false,
+				"message"=>"Failed."
+			];
+		}
+		echo json_encode($response);
+	}
+	
 	function extract_int($str){
 		preg_match('/[^0-9]*([0-9]+)[^0-9]*/', $str, $regs);
 		$count_n = strlen((intval($regs[1])));
         if($count_n == 1){
-            $sid = "00".(intval($regs[1]));
+            $sid = "J00".(intval($regs[1]));
             $nextId = $sid;
         }else if($count_n == 2){
-            $sid = "0".(intval($regs[1]));
+            $sid = "J0".(intval($regs[1]));
             $nextId = $sid;
         }else{
-            $nextId = (intval($regs[1]));
+            $nextId = "J".(intval($regs[1]));
         }
         return $nextId;
 	}
